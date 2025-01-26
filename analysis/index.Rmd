@@ -8,4 +8,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Welcome to the research website for afb_plo_aaba_2025.
+Here you will find the information regarding the analysis for C. Quire's AABA 2025 abstract.
+Visit the ABOUT page to see the analyses. 
