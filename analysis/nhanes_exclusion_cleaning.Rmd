@@ -11,9 +11,8 @@ editor_options:
 
 
 ## Downloading and Importing Datafiles
-
 ```{r}
-# Install dplyr packages
+# Install relevant packages
 install.packages("dplyr")
 install.packages("survey")
 install.packages("haven")
@@ -37,9 +36,8 @@ for (p in c("base", "survey","dplyr"))
 { cat(p, ": ", as.character(packageVersion(p)), "\n")}
 ```
 
-# Data preparation
 ```{r}
-# Download & Read
+# Download and read data
 
 # Demographic (DEMO)
 # isolated participant identification/sequence number, gender, age, variances
@@ -63,7 +61,7 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I
 DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
 ```
 
-# Append files
+## Data Cleaning
 ```{r}
 # combining H, I dataset
 DEMO <- bind_rows(DEMO_H, DEMO_I)
@@ -76,13 +74,21 @@ DXX <- bind_rows(DXX_H, DXX_I)
 # merging DEMO and RHQ
 medium_data <- left_join(DEMO, RHQ, by = "SEQN")
 
-# merging medium_data w/ DXX
+# merging medium_data (includes DEMO, RHQ) w/ DXX
 mega_data <- left_join(medium_data, DXX, by = "SEQN")
 ```
 
-# Remove missing RHQ values
+# Omit missing (N/A) RHQ values
 ```{r}
-# removing missing AFB values from dataset, will subsequently remove all males from set
+# removing missing AFB values from dataset; will subsequently remove all males from set
 feminist_mega_data <- drop_na(mega_data, "RHD180")
 ```
+
+# Remove menopausal and postmenopausal participants
+```{r}
+# omit responses from participants who have NOT had a menstrual period in the past 12 mo
+
+```
+
+
 
