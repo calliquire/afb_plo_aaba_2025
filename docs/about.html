@@ -281,7 +281,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -292,8 +292,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -306,9 +306,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>afb_plo_aaba_2025/</code> <span
@@ -331,34 +331,33 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong3fc9535">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treec06e210547b25bf152ff42225aedce5012ec5b72targetblankc06e210a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 3fc9535
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/c06e210547b25bf152ff42225aedce5012ec5b72" target="_blank">c06e210</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong3fc9535"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treec06e210547b25bf152ff42225aedce5012ec5b72targetblankc06e210a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -367,7 +366,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 3fc9535.
+The results in this page were generated with repository version
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/c06e210547b25bf152ff42225aedce5012ec5b72" target="_blank">c06e210</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -386,15 +386,6 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  code/Untitled.R
-    Untracked:  data/DEMO_I.xpt
-    Untracked:  data/DEMO_J.xpt
-
-Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/nhanes_exclusion_cleaning.Rmd
 
 </code></pre>
 <p>
@@ -440,10 +431,44 @@ Message
 <tbody>
 <tr>
 <td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/c06e210547b25bf152ff42225aedce5012ec5b72/analysis/about.Rmd" target="_blank">c06e210</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-29
+</td>
+<td>
+initial commit
+</td>
+</tr>
+<tr>
+<td>
 html
 </td>
 <td>
-deaeece
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/c06e210547b25bf152ff42225aedce5012ec5b72/docs/about.html" target="_blank">c06e210</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-29
+</td>
+<td>
+initial commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/deaeeceb313f3053f2048257021d0e45afbfae60/docs/about.html" target="_blank">deaeece</a>
 </td>
 <td>
 cquire
@@ -460,7 +485,7 @@ Build site.
 Rmd
 </td>
 <td>
-b8fb302
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/b8fb30216d4305564524972f401bebd88f555d5d/analysis/about.Rmd" target="_blank">b8fb302</a>
 </td>
 <td>
 cquire
@@ -477,7 +502,7 @@ Publish the initial files for afb_plo_aaba_2025
 Rmd
 </td>
 <td>
-b774ee2
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/b774ee210c954d7fe18d30f45ce4e8602d8671d0/analysis/about.Rmd" target="_blank">b774ee2</a>
 </td>
 <td>
 cquire
