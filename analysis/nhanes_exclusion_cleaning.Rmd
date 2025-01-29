@@ -38,27 +38,44 @@ for (p in c("base", "survey","dplyr"))
 # Data preparation
 ```{r}
 # Download & Read
+
 # Demographic (DEMO)
+# isolated participant identification/sequence number, gender, age, variances
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DEMO_H.XPT", tf <- tempfile(), mode="wb")
 DEMO_H <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DEMO_I.xpt", tf <- tempfile(), mode="wb")
 DEMO_I <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
 
-# Bone Mineral Density - Dual-Energy X-ray Absorptiometry - Whole Body
+# Reproductive Health Questions (RHQ)
+# isolated sequence number, age at first live birth
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/RHQ_H.XPT", tf <- tempfile(), mode="wb")
+RHQ_H <- foreign::read.xport(tf)[,c("SEQN","RHD180")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/RHQ_I.xpt", tf <- tempfile(), mode="wb")
+RHQ_I <- foreign::read.xport(tf)[,c("SEQN","RHD180")]
+
+# Dual-Energy X-ray Absorptiometry - Whole Body (DXX)
+# isolated sequence number, lumbar spine BMD
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DXX_H.xpt", tf <- tempfile(), mode="wb")
-DXX_H <- foreign::read.xport(tf)
+DXX_H <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt", tf <- tempfile(), mode="wb")
-DXX_I <- foreign::read.xport(tf)
+DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
 ```
 
 # Append files
 ```{r}
+# combining H, I dataset
 DEMO <- bind_rows(DEMO_H, DEMO_I)
+RHQ <- bind_rows(RHQ_H, RHQ_I)
 DXX <- bind_rows(DXX_H, DXX_I)
 ```
 
-# Merge DEMO and DXX files and create derived variables
+# Merge DEMO, RHQ, DXX datasets
 ```{r}
+# merging DEMO and RHQ
+medium_data <- left_join(DEMO, RHQ, by = "SEQN")
 
+# merging medium_data w/ DXX
+mega_data <- left_join(medium_data, DXX, by = "SEQN")
 ```
+
 
