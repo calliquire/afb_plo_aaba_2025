@@ -17,6 +17,7 @@ editor_options:
 install.packages("dplyr")
 install.packages("survey")
 install.packages("haven")
+install.packages("tidyr")
 ```
 
 ```{r}
@@ -26,6 +27,7 @@ library(dplyr)
 library(survey)
 library(haven)
 library(workflowr)
+library(tidyr)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -78,4 +80,9 @@ medium_data <- left_join(DEMO, RHQ, by = "SEQN")
 mega_data <- left_join(medium_data, DXX, by = "SEQN")
 ```
 
+# Remove missing RHQ values
+```{r}
+# removing missing AFB values from dataset, will subsequently remove all males from set
+feminist_mega_data <- drop_na(mega_data, "RHD180")
+```
 
