@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-01-26
+<strong>Last updated:</strong> 2025-01-29
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>afb_plo_aaba_2025/</code> <span
@@ -411,18 +411,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -513,13 +516,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong586a230">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong3fc9535">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 586a230
+aria-hidden="true"></span> <strong>Repository version:</strong> 3fc9535
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong586a230"
+<div id="strongRepositoryversionstrong3fc9535"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -528,7 +531,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 586a230.
+The results in this page were generated with repository version 3fc9535.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -544,14 +547,18 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  code/Untitled.R
     Untracked:  data/DEMO_I.xpt
     Untracked:  data/DEMO_J.xpt
 
 Unstaged changes:
     Modified:   analysis/about.Rmd
+    Modified:   analysis/nhanes_exclusion_cleaning.Rmd
 
 </code></pre>
 <p>
@@ -602,6 +609,23 @@ Message
 html
 </td>
 <td>
+3fc9535
+</td>
+<td>
+cquire
+</td>
+<td>
+2025-01-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
 586a230
 </td>
 <td>
@@ -640,6 +664,79 @@ wflow_publish("analysis/nhanes_exclusion_cleaning.Rmd")
 </div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
+</div>
+<div id="downloading-and-importing-datafiles" class="section level2">
+<h2>Downloading and Importing Datafiles</h2>
+<pre class="r"><code># Install dplyr packages
+install.packages(&quot;dplyr&quot;)</code></pre>
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpgGKd1j/downloaded_packages</code></pre>
+<pre class="r"><code>install.packages(&quot;survey&quot;)</code></pre>
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpgGKd1j/downloaded_packages</code></pre>
+<pre class="r"><code>install.packages(&quot;haven&quot;)</code></pre>
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpgGKd1j/downloaded_packages</code></pre>
+<pre class="r"><code>#Load relevant packages
+#+ message = FALSE, warning=FALSE
+library(dplyr)</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(survey)</code></pre>
+<pre><code>Loading required package: grid</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre><code>Loading required package: survival</code></pre>
+<pre><code>
+Attaching package: &#39;survey&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:graphics&#39;:
+
+    dotchart</code></pre>
+<pre class="r"><code>library(haven)
+library(workflowr)
+#&#39;
+options(survey.lonely.psu=&#39;adjust&#39;)
+
+# Display Version Information
+cat(&quot;R package versions:\n&quot;)</code></pre>
+<pre><code>R package versions:</code></pre>
+<pre class="r"><code>for (p in c(&quot;base&quot;, &quot;survey&quot;,&quot;dplyr&quot;))
+{ cat(p, &quot;: &quot;, as.character(packageVersion(p)), &quot;\n&quot;)}</code></pre>
+<pre><code>base :  4.4.2 
+survey :  4.4.2 
+dplyr :  1.1.4 </code></pre>
+</div>
+<div id="data-preparation" class="section level1">
+<h1>Data preparation</h1>
+<pre class="r"><code># Download &amp; Read
+# Demographic (DEMO)
+download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DEMO_H.XPT&quot;, tf &lt;- tempfile(), mode=&quot;wb&quot;)
+DEMO_H &lt;- foreign::read.xport(tf)[,c(&quot;SEQN&quot;,&quot;RIAGENDR&quot;,&quot;RIDAGEYR&quot;,&quot;SDMVSTRA&quot;,&quot;SDMVPSU&quot;,&quot;WTMEC2YR&quot;)]
+download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DEMO_I.xpt&quot;, tf &lt;- tempfile(), mode=&quot;wb&quot;)
+DEMO_I &lt;- foreign::read.xport(tf)[,c(&quot;SEQN&quot;,&quot;RIAGENDR&quot;,&quot;RIDAGEYR&quot;,&quot;SDMVSTRA&quot;,&quot;SDMVPSU&quot;,&quot;WTMEC2YR&quot;)]
+
+# Bone Mineral Density - Dual-Energy X-ray Absorptiometry - Whole Body
+download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DXX_H.xpt&quot;, tf &lt;- tempfile(), mode=&quot;wb&quot;)
+DXX_H &lt;- foreign::read.xport(tf)
+download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt&quot;, tf &lt;- tempfile(), mode=&quot;wb&quot;)
+DXX_I &lt;- foreign::read.xport(tf)</code></pre>
+</div>
+<div id="append-files" class="section level1">
+<h1>Append files</h1>
+<pre class="r"><code>DEMO &lt;- bind_rows(DEMO_H, DEMO_I)
+DXX &lt;- bind_rows(DXX_H, DXX_I)</code></pre>
+</div>
+<div id="merge-demo-and-dxx-files-and-create-derived-variables"
+class="section level1">
+<h1>Merge DEMO and DXX files and create derived variables</h1>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -664,23 +761,27 @@ time zone: America/Detroit
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
-[1] workflowr_1.7.1
+[1] haven_2.5.4     survey_4.4-2    survival_3.7-0  Matrix_1.7-1   
+[5] dplyr_1.1.4     workflowr_1.7.1
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       httr_1.4.7        cli_3.6.3         knitr_1.49       
- [5] rlang_1.1.5       xfun_0.50         stringi_1.8.4     processx_3.8.5   
- [9] promises_1.3.2    jsonlite_1.8.9    glue_1.8.0        rprojroot_2.0.4  
-[13] git2r_0.35.0      htmltools_0.5.8.1 httpuv_1.6.15     ps_1.8.1         
-[17] sass_0.4.9        rmarkdown_2.29    jquerylib_0.1.4   tibble_3.2.1     
-[21] evaluate_1.0.3    fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4  
-[25] whisker_0.4.1     stringr_1.5.1     compiler_4.4.2    fs_1.6.5         
-[29] pkgconfig_2.0.3   Rcpp_1.0.14       rstudioapi_0.17.1 later_1.4.1      
-[33] digest_0.6.37     R6_2.5.1          pillar_1.10.1     callr_3.7.6      
-[37] magrittr_2.0.3    bslib_0.8.0       tools_4.4.2       cachem_1.1.0     
-[41] getPass_0.2-4    </code></pre>
+ [1] jsonlite_1.8.9    compiler_4.4.2    promises_1.3.2    tidyselect_1.2.1 
+ [5] Rcpp_1.0.14       stringr_1.5.1     git2r_0.35.0      callr_3.7.6      
+ [9] later_1.4.1       jquerylib_0.1.4   splines_4.4.2     yaml_2.3.10      
+[13] fastmap_1.2.0     lattice_0.22-6    R6_2.5.1          generics_0.1.3   
+[17] knitr_1.49        forcats_1.0.0     tibble_3.2.1      rprojroot_2.0.4  
+[21] DBI_1.2.3         bslib_0.8.0       pillar_1.10.1     rlang_1.1.5      
+[25] cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15     xfun_0.50        
+[29] getPass_0.2-4     fs_1.6.5          sass_0.4.9        cli_3.6.3        
+[33] magrittr_2.0.3    ps_1.8.1          digest_0.6.37     processx_3.8.5   
+[37] rstudioapi_0.17.1 hms_1.1.3         lifecycle_1.0.4   vctrs_0.6.5      
+[41] evaluate_1.0.3    glue_1.8.0        whisker_0.4.1     mitools_2.4      
+[45] foreign_0.8-87    rmarkdown_2.29    httr_1.4.7        tools_4.4.2      
+[49] pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
 </div>
 </div>
 </div>

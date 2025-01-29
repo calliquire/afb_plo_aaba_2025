@@ -9,6 +9,55 @@ editor_options:
 
 ## Introduction
 
+
+## Downloading and Importing Datafiles
+
+```{r}
+# Install dplyr packages
+install.packages("dplyr")
+install.packages("survey")
+install.packages("haven")
+```
+
+```{r}
+#Load relevant packages
+#+ message = FALSE, warning=FALSE
+library(dplyr)
+library(survey)
+library(haven)
+library(workflowr)
+#'
+options(survey.lonely.psu='adjust')
+
+# Display Version Information
+cat("R package versions:\n")
+for (p in c("base", "survey","dplyr"))
+{ cat(p, ": ", as.character(packageVersion(p)), "\n")}
+```
+
+# Data preparation
+```{r}
+# Download & Read
+# Demographic (DEMO)
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DEMO_H.XPT", tf <- tempfile(), mode="wb")
+DEMO_H <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DEMO_I.xpt", tf <- tempfile(), mode="wb")
+DEMO_I <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+
+# Bone Mineral Density - Dual-Energy X-ray Absorptiometry - Whole Body
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DXX_H.xpt", tf <- tempfile(), mode="wb")
+DXX_H <- foreign::read.xport(tf)
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt", tf <- tempfile(), mode="wb")
+DXX_I <- foreign::read.xport(tf)
+```
+
+# Append files
+```{r}
+DEMO <- bind_rows(DEMO_H, DEMO_I)
+DXX <- bind_rows(DXX_H, DXX_I)
+```
+
+# Merge DEMO and DXX files and create derived variables
 ```{r}
 
 ```
