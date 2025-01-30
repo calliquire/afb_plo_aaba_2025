@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treec6e80322e4e4f0d53543846a69c78528cb50b2catargetblankc6e8032a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree32737f1f912f0725397e6ff959aa097145cc7726targetblank32737f1a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/c6e80322e4e4f0d53543846a69c78528cb50b2ca" target="_blank">c6e8032</a>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/32737f1f912f0725397e6ff959aa097145cc7726" target="_blank">32737f1</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treec6e80322e4e4f0d53543846a69c78528cb50b2catargetblankc6e8032a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree32737f1f912f0725397e6ff959aa097145cc7726targetblank32737f1a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/c6e80322e4e4f0d53543846a69c78528cb50b2ca" target="_blank">c6e8032</a>.
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/32737f1f912f0725397e6ff959aa097145cc7726" target="_blank">32737f1</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -595,6 +595,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/32737f1f912f0725397e6ff959aa097145cc7726/analysis/nhanes_exclusion_cleaning.Rmd" target="_blank">32737f1</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+wflow_publish("analysis/*.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/dc3bfc590de7a42fed03f6238a4fed9c66c708f2/docs/nhanes_exclusion_cleaning.html" target="_blank">dc3bfc5</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1001,19 +1035,19 @@ wflow_publish("analysis/nhanes_exclusion_cleaning.Rmd")
 install.packages(&quot;dplyr&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpffTbwN/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpWIsVwM/downloaded_packages</code></pre>
 <pre class="r"><code>install.packages(&quot;survey&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpffTbwN/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpWIsVwM/downloaded_packages</code></pre>
 <pre class="r"><code>install.packages(&quot;haven&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpffTbwN/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpWIsVwM/downloaded_packages</code></pre>
 <pre class="r"><code>install.packages(&quot;tidyr&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpffTbwN/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpWIsVwM/downloaded_packages</code></pre>
 <pre class="r"><code>#Load relevant packages
 #+ message = FALSE, warning=FALSE
 library(dplyr)</code></pre>
@@ -1113,6 +1147,11 @@ fem_mega_data_2 &lt;- subset(fem_mega_data_1, !(RHD043 %in% c(7, 9, 77, 99)))
 # omit participants who answer &gt;/= 49 to RIDAGEYR
 # this removes participants who may have had a hysterectomy, and therefore cannot say if they are experiencing menopause (based on lack of menstruation), and are at or above the average age that menopause occurs  
 fert_fem_mega_data &lt;- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))</code></pre>
+</div>
+<div id="omit-participants-without-bmd-data" class="section level3">
+<h3>Omit participants without BMD data</h3>
+<pre class="r"><code># this removes any participants who are missing BMD data
+bmd_fert_fem_mega_data &lt;- drop_na(fert_fem_mega_data, &quot;DXXLSBMD&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
