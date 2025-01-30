@@ -7,6 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-Click on this [link](nhanes_exclusion_cleaning.html) to see my results.
+(Submitted 2/1/2025) **Preliminary (CDC NHANES 2013-2014, 2015-2016 data) study:**
 
+Click on this [link]() to see the participant exclusion criteria flowchart.
 
+Click on this [link](nhanes_exclusion_cleaning.html) to see the data cleaning.
+
+Click on this [link]() to see the analyses.
