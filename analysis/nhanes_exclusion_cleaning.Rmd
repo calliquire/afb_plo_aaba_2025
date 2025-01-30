@@ -106,8 +106,12 @@ fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 
 bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXLSBMD")
 ```
 
-## View/check final data set
+## Add PBMDA column for AFB before 27yo v.s. at/after 27yo
 ```{r}
-head(bmd_fert_fem_mega_data)
+# this adds a column for if participants' age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
+bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
+  mutate(PBMDA = ifelse(RHD180 < 27, 1, 0 ))
 ```
+
+
 
