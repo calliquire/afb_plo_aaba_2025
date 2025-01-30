@@ -85,19 +85,23 @@ fem_mega_data <- drop_na(mega_data, "RHD180")
 ```
 
 # Remove menopausal and postmenopausal participants
-*** want to omit participants who are menopausal or postmenopausal, can do so by omitting those who are:
-(1) not having menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy, and
+*** want to omit participants who are menopausal or postmenopausal; can do so by omitting those who are:
+(1) not having a menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy, and
   (1A) if had hysterectomy, are they below the avg age of menopause onset 49 yo
 
 ```{r}
-# remove missing (N/A) values from RHQ031
+# omit missing (N/A) values from RHQ031
 fem_mega_data_1 <- drop_na(fem_mega_data, "RHQ031")
 
-# remove participants who answer menopause (7), other (9), refused (77), don't know (99) to RHD043
+# omit participants who answer menopause (7), other (9), refused (77), don't know (99) to RHD043
+# this removes participants who aren't having periods b/c of menopause, another reason, or refused/don't know
 fem_mega_data_2 <- subset(fem_mega_data_1, !(RHD043 %in% c(7, 9, 77, 99)))
 
-# remove participants who answer >/= 49 to RIDAGEYR
+# omit participants who answer >/= 49 to RIDAGEYR
+# this removes participants who may have had a hysterectomy, and therefore cannot say if they are experiencing menopause (based on lack of menstruation), and are at or above the average age that menopause occurs  
 fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
 ```
+
+
 
 
