@@ -17,7 +17,7 @@ install.packages("haven")
 install.packages("tidyr")
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
 #Load relevant packages
 #+ message = FALSE, warning=FALSE
 library(dplyr)
