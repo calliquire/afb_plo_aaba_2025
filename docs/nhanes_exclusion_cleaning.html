@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treeb4bfda040ea4397edb23934ce97d56ad1cdcc3e3targetblankb4bfda0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree4158fa99f71255aad908d362ed2a77c75b195180targetblank4158fa9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/b4bfda040ea4397edb23934ce97d56ad1cdcc3e3" target="_blank">b4bfda0</a>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/4158fa99f71255aad908d362ed2a77c75b195180" target="_blank">4158fa9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treeb4bfda040ea4397edb23934ce97d56ad1cdcc3e3targetblankb4bfda0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree4158fa99f71255aad908d362ed2a77c75b195180targetblank4158fa9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/b4bfda040ea4397edb23934ce97d56ad1cdcc3e3" target="_blank">b4bfda0</a>.
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/4158fa99f71255aad908d362ed2a77c75b195180" target="_blank">4158fa9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -595,6 +595,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/4158fa99f71255aad908d362ed2a77c75b195180/analysis/nhanes_exclusion_cleaning.Rmd" target="_blank">4158fa9</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+Update nhanes_exclusion_cleaning.Rmd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/0fd63908558b8e8fd716e01ad3831bff18ea2541/docs/nhanes_exclusion_cleaning.html" target="_blank">0fd6390</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1133,16 +1167,16 @@ wflow_publish("analysis/nhanes_exclusion_cleaning.Rmd")
 <h1>Downloading and Importing Datafiles</h1>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpkV20mL/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpkV20mL/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpkV20mL/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpkV20mL/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
 <pre><code>R package versions:</code></pre>
 <pre><code>base :  4.4.2 
 survey :  4.4.2 
@@ -1213,23 +1247,12 @@ fert_fem_mega_data &lt;- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 5
 <pre class="r"><code># this removes any participants who are missing BMD data
 bmd_fert_fem_mega_data &lt;- drop_na(fert_fem_mega_data, &quot;DXXLSBMD&quot;)</code></pre>
 </div>
-<div id="viewcheck-final-data-set" class="section level2">
-<h2>View/check final data set</h2>
-<pre class="r"><code>head(bmd_fert_fem_mega_data)</code></pre>
-<pre><code>   SEQN RIAGENDR RIDAGEYR SDMVSTRA SDMVPSU  WTMEC2YR RHD180 RHQ031 RHD043
-1 73574        2       33      114       2  15397.22     27      1     NA
-2 73580        2       38      116       2  27196.64     15      1     NA
-3 73668        2       30      115       2  30352.35     19      1     NA
-4 73674        2       45      105       2  48214.25     25      1     NA
-5 73702        2       48      113       2  81166.21     14      1     NA
-6 73715        2       38      105       1 114048.38     20      1     NA
-  DXXLSBMD
-1    1.047
-2    1.026
-3    0.887
-4    0.962
-5    1.277
-6    1.111</code></pre>
+<div id="add-pbmda-column-for-afb-before-27yo-v.s.-atafter-27yo"
+class="section level2">
+<h2>Add PBMDA column for AFB before 27yo v.s. at/after 27yo</h2>
+<pre class="r"><code># this adds a column for if participants&#39; age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
+bmd_fert_fem_mega_data &lt;- bmd_fert_fem_mega_data %&gt;%
+  mutate(PBMDA = ifelse(RHD180 &lt; 27, 1, 0 ))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
