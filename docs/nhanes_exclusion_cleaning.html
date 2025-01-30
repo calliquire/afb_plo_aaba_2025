@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree748d3711c50f969855ff2ce7b90ecbc9792f464atargetblank748d371a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree8f880a41282f0c01245f049fc1f05dd321b18fe6targetblank8f880a4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/748d3711c50f969855ff2ce7b90ecbc9792f464a" target="_blank">748d371</a>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/8f880a41282f0c01245f049fc1f05dd321b18fe6" target="_blank">8f880a4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree748d3711c50f969855ff2ce7b90ecbc9792f464atargetblank748d371a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree8f880a41282f0c01245f049fc1f05dd321b18fe6targetblank8f880a4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/748d3711c50f969855ff2ce7b90ecbc9792f464a" target="_blank">748d371</a>.
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/8f880a41282f0c01245f049fc1f05dd321b18fe6" target="_blank">8f880a4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -595,6 +595,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/8f880a41282f0c01245f049fc1f05dd321b18fe6/analysis/nhanes_exclusion_cleaning.Rmd" target="_blank">8f880a4</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+wflow_publish("analysis/*.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/51be3c1f89007a8898821369878fef80ea530b3c/docs/nhanes_exclusion_cleaning.html" target="_blank">51be3c1</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -891,28 +925,27 @@ wflow_publish("analysis/nhanes_exclusion_cleaning.Rmd")
 </div>
 </div>
 </div>
-<div id="introduction" class="section level3">
-<h3>Introduction</h3>
-</div>
-<div id="downloading-and-importing-datafiles" class="section level3">
-<h3>Downloading and Importing Datafiles</h3>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<div id="downloading-and-importing-datafiles" class="section level2">
+<h2>Downloading and Importing Datafiles</h2>
 <pre class="r"><code># Install relevant packages
 install.packages(&quot;dplyr&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpbjXwfR/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpNAc9WV/downloaded_packages</code></pre>
 <pre class="r"><code>install.packages(&quot;survey&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpbjXwfR/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpNAc9WV/downloaded_packages</code></pre>
 <pre class="r"><code>install.packages(&quot;haven&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpbjXwfR/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpNAc9WV/downloaded_packages</code></pre>
 <pre class="r"><code>install.packages(&quot;tidyr&quot;)</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpbjXwfR/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpNAc9WV/downloaded_packages</code></pre>
 <pre class="r"><code>#Load relevant packages
 #+ message = FALSE, warning=FALSE
 library(dplyr)</code></pre>
@@ -974,7 +1007,6 @@ download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/
 DXX_H &lt;- foreign::read.xport(tf)[,c(&quot;SEQN&quot;, &quot;DXXLSBMD&quot;)]
 download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt&quot;, tf &lt;- tempfile(), mode=&quot;wb&quot;)
 DXX_I &lt;- foreign::read.xport(tf)[,c(&quot;SEQN&quot;, &quot;DXXLSBMD&quot;)]</code></pre>
-</div>
 <div id="data-cleaning" class="section level3">
 <h3>Data Cleaning</h3>
 <pre class="r"><code># combining H, I dataset
@@ -982,22 +1014,22 @@ DEMO &lt;- bind_rows(DEMO_H, DEMO_I)
 RHQ &lt;- bind_rows(RHQ_H, RHQ_I)
 DXX &lt;- bind_rows(DXX_H, DXX_I)</code></pre>
 </div>
-<div id="merge-demo-rhq-dxx-datasets" class="section level1">
-<h1>Merge DEMO, RHQ, DXX datasets</h1>
+<div id="merge-demo-rhq-dxx-datasets" class="section level3">
+<h3>Merge DEMO, RHQ, DXX datasets</h3>
 <pre class="r"><code># merging DEMO and RHQ
 medium_data &lt;- left_join(DEMO, RHQ, by = &quot;SEQN&quot;)
 
 # merging medium_data (includes DEMO, RHQ) w/ DXX
 mega_data &lt;- left_join(medium_data, DXX, by = &quot;SEQN&quot;)</code></pre>
 </div>
-<div id="omit-missing-na-afb-rhq-values" class="section level1">
-<h1>Omit missing (N/A) AFB RHQ values</h1>
+<div id="omit-missing-na-afb-rhq-values" class="section level3">
+<h3>Omit missing (N/A) AFB RHQ values</h3>
 <pre class="r"><code># removing missing AFB values from dataset; will subsequently remove all males from set
 fem_mega_data &lt;- drop_na(mega_data, &quot;RHD180&quot;)</code></pre>
 </div>
 <div id="remove-menopausal-and-postmenopausal-participants"
-class="section level1">
-<h1>Remove menopausal and postmenopausal participants</h1>
+class="section level3">
+<h3>Remove menopausal and postmenopausal participants</h3>
 <p>*** want to omit participants who are menopausal or postmenopausal;
 can do so by omitting those who are: (1) not having a menstrual period
 in past 12mo and not b/c they were pregnant, breastfeeding, or had a
@@ -1058,6 +1090,8 @@ loaded via a namespace (and not attached):
 [41] later_1.4.1       glue_1.8.0        Rcpp_1.0.14       xfun_0.50        
 [45] tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1 knitr_1.49       
 [49] htmltools_0.5.8.1 rmarkdown_2.29    compiler_4.4.2    getPass_0.2-4    </code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
