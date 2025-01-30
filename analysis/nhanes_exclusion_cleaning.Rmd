@@ -86,7 +86,7 @@ fem_mega_data <- drop_na(mega_data, "RHD180")
 
 # Remove menopausal and postmenopausal participants
 *** want to omit participants who are menopausal or postmenopausal, can do so by omitting those who are:
-(1) not having menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy 
+(1) not having menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy, and
   (1A) if had hysterectomy, are they below the avg age of menopause onset 49 yo
 
 ```{r}
