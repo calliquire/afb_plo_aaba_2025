@@ -61,7 +61,7 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I
 DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
 ```
 
-### Data Cleaning
+## Data Cleaning
 ```{r}
 # combining H, I dataset
 DEMO <- bind_rows(DEMO_H, DEMO_I)
