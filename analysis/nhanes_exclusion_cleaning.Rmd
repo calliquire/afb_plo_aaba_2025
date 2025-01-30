@@ -9,7 +9,7 @@ editor_options:
 
 
 # Downloading and Importing Datafiles
-```{r}
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
 # Install relevant packages
 install.packages("dplyr")
 install.packages("survey")
