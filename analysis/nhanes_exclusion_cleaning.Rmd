@@ -7,10 +7,8 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Introduction
 
-
-## Downloading and Importing Datafiles
+# Downloading and Importing Datafiles
 ```{r}
 # Install relevant packages
 install.packages("dplyr")
@@ -61,7 +59,7 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I
 DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
 ```
 
-## Data Cleaning
+# Data Cleaning
 ```{r}
 # combining H, I dataset
 DEMO <- bind_rows(DEMO_H, DEMO_I)
@@ -69,7 +67,7 @@ RHQ <- bind_rows(RHQ_H, RHQ_I)
 DXX <- bind_rows(DXX_H, DXX_I)
 ```
 
-### Merge DEMO, RHQ, DXX datasets
+## Merge DEMO, RHQ, DXX datasets
 ```{r}
 # merging DEMO and RHQ
 medium_data <- left_join(DEMO, RHQ, by = "SEQN")
@@ -78,13 +76,13 @@ medium_data <- left_join(DEMO, RHQ, by = "SEQN")
 mega_data <- left_join(medium_data, DXX, by = "SEQN")
 ```
 
-### Omit missing (N/A) AFB RHQ values
+## Omit missing (N/A) AFB RHQ values
 ```{r}
 # removing missing AFB values from dataset; will subsequently remove all males from set
 fem_mega_data <- drop_na(mega_data, "RHD180")
 ```
 
-### Remove menopausal and postmenopausal participants
+## Remove menopausal and postmenopausal participants
 *** want to omit participants who are menopausal or postmenopausal; can do so by omitting those who are:
 (1) not having a menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy, and
   (1A) if had hysterectomy, are they below the avg age of menopause onset 49 yo
@@ -102,11 +100,14 @@ fem_mega_data_2 <- subset(fem_mega_data_1, !(RHD043 %in% c(7, 9, 77, 99)))
 fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
 ```
 
-### Omit participants without BMD data
+## Omit participants without BMD data
 ```{r}
 # this removes any participants who are missing BMD data
 bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXLSBMD")
 ```
 
-
+## View/check final data set
+```{r}
+head(bmd_fert_fem_mega_data)
+```
 
