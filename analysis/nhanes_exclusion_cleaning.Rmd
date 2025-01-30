@@ -47,11 +47,11 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DEMO_
 DEMO_I <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
 
 # Reproductive Health Questions (RHQ)
-# isolated sequence number, age at first live birth
+# isolated sequence number, age at first live birth, has had regular periods in the last 12 mo, reason for not having regular periods in last 12 mo
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/RHQ_H.XPT", tf <- tempfile(), mode="wb")
-RHQ_H <- foreign::read.xport(tf)[,c("SEQN","RHD180")]
+RHQ_H <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/RHQ_I.xpt", tf <- tempfile(), mode="wb")
-RHQ_I <- foreign::read.xport(tf)[,c("SEQN","RHD180")]
+RHQ_I <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 
 # Dual-Energy X-ray Absorptiometry - Whole Body (DXX)
 # isolated sequence number, lumbar spine BMD
@@ -78,17 +78,26 @@ medium_data <- left_join(DEMO, RHQ, by = "SEQN")
 mega_data <- left_join(medium_data, DXX, by = "SEQN")
 ```
 
-# Omit missing (N/A) RHQ values
+# Omit missing (N/A) AFB RHQ values
 ```{r}
 # removing missing AFB values from dataset; will subsequently remove all males from set
-feminist_mega_data <- drop_na(mega_data, "RHD180")
+fem_mega_data <- drop_na(mega_data, "RHD180")
 ```
 
 # Remove menopausal and postmenopausal participants
+** want to omit participants who are menopausal or postmenopausal, can do so by omitting those who are:
+- not having menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy 
+  -if had hysterectomy, are they below the avg age of menopause onset 49 yo
+
 ```{r}
-# omit responses from participants who have NOT had a menstrual period in the past 12 mo
+# remove missing (N/A) values from RHQ031
+fem_mega_data_1 <- drop_na(fem_mega_data, "RHQ031")
 
+# remove participants who answer menopause (7), other (9), refused (77), don't know (99) to RHD043
+fem_mega_data_2 <- subset(fem_mega_data_1, !(RHD043 %in% c(7, 9, 77, 99)))
+
+# remove participants who answer >/= 49 to RIDAGEYR
+fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
 ```
-
 
 
