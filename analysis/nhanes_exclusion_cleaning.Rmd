@@ -7,10 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-### Introduction
+# Introduction
 
 
-### Downloading and Importing Datafiles
+## Downloading and Importing Datafiles
 ```{r}
 # Install relevant packages
 install.packages("dplyr")
@@ -69,7 +69,7 @@ RHQ <- bind_rows(RHQ_H, RHQ_I)
 DXX <- bind_rows(DXX_H, DXX_I)
 ```
 
-# Merge DEMO, RHQ, DXX datasets
+### Merge DEMO, RHQ, DXX datasets
 ```{r}
 # merging DEMO and RHQ
 medium_data <- left_join(DEMO, RHQ, by = "SEQN")
@@ -78,13 +78,13 @@ medium_data <- left_join(DEMO, RHQ, by = "SEQN")
 mega_data <- left_join(medium_data, DXX, by = "SEQN")
 ```
 
-# Omit missing (N/A) AFB RHQ values
+### Omit missing (N/A) AFB RHQ values
 ```{r}
 # removing missing AFB values from dataset; will subsequently remove all males from set
 fem_mega_data <- drop_na(mega_data, "RHD180")
 ```
 
-# Remove menopausal and postmenopausal participants
+### Remove menopausal and postmenopausal participants
 *** want to omit participants who are menopausal or postmenopausal; can do so by omitting those who are:
 (1) not having a menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy, and
   (1A) if had hysterectomy, are they below the avg age of menopause onset 49 yo
