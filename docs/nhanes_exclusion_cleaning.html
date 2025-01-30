@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree4158fa99f71255aad908d362ed2a77c75b195180targetblank4158fa9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree21548a17db8988633e6f01b528937c520900bf97targetblank21548a1a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/4158fa99f71255aad908d362ed2a77c75b195180" target="_blank">4158fa9</a>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/21548a17db8988633e6f01b528937c520900bf97" target="_blank">21548a1</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree4158fa99f71255aad908d362ed2a77c75b195180targetblank4158fa9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree21548a17db8988633e6f01b528937c520900bf97targetblank21548a1a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/4158fa99f71255aad908d362ed2a77c75b195180" target="_blank">4158fa9</a>.
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/21548a17db8988633e6f01b528937c520900bf97" target="_blank">21548a1</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -595,6 +595,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/21548a17db8988633e6f01b528937c520900bf97/analysis/nhanes_exclusion_cleaning.Rmd" target="_blank">21548a1</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+wflow_publish("analysis/*.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/5d196c7c22941f2ce92e5b31dfc7a85811799f6c/docs/nhanes_exclusion_cleaning.html" target="_blank">5d196c7</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-01-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1163,20 +1197,25 @@ wflow_publish("analysis/nhanes_exclusion_cleaning.Rmd")
 </div>
 </div>
 </div>
-<div id="downloading-and-importing-datafiles" class="section level1">
-<h1>Downloading and Importing Datafiles</h1>
+<div id="cleaning" class="section level1">
+<h1>Cleaning</h1>
+<div id="downloading-and-importing-datafiles" class="section level2">
+<h2>Downloading and Importing Datafiles</h2>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpQEEGHT/downloaded_packages</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpQEEGHT/downloaded_packages</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpQEEGHT/downloaded_packages</code></pre>
 <pre><code>
 The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//Rtmp8JBFZt/downloaded_packages</code></pre>
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpQEEGHT/downloaded_packages</code></pre>
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpQEEGHT/downloaded_packages</code></pre>
 <pre><code>R package versions:</code></pre>
 <pre><code>base :  4.4.2 
 survey :  4.4.2 
@@ -1204,12 +1243,13 @@ DXX_H &lt;- foreign::read.xport(tf)[,c(&quot;SEQN&quot;, &quot;DXXLSBMD&quot;)]
 download.file(&quot;https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt&quot;, tf &lt;- tempfile(), mode=&quot;wb&quot;)
 DXX_I &lt;- foreign::read.xport(tf)[,c(&quot;SEQN&quot;, &quot;DXXLSBMD&quot;)]</code></pre>
 </div>
-<div id="data-cleaning" class="section level1">
-<h1>Data Cleaning</h1>
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
 <pre class="r"><code># combining H, I dataset
 DEMO &lt;- bind_rows(DEMO_H, DEMO_I)
 RHQ &lt;- bind_rows(RHQ_H, RHQ_I)
 DXX &lt;- bind_rows(DXX_H, DXX_I)</code></pre>
+</div>
 <div id="merge-demo-rhq-dxx-datasets" class="section level2">
 <h2>Merge DEMO, RHQ, DXX datasets</h2>
 <pre class="r"><code># merging DEMO and RHQ
@@ -1247,12 +1287,48 @@ fert_fem_mega_data &lt;- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 5
 <pre class="r"><code># this removes any participants who are missing BMD data
 bmd_fert_fem_mega_data &lt;- drop_na(fert_fem_mega_data, &quot;DXXLSBMD&quot;)</code></pre>
 </div>
-<div id="add-pbmda-column-for-afb-before-27yo-v.s.-atafter-27yo"
+<div id="add-pbmda-column-for-afb-before-27yo-vs-atafter-27yo"
 class="section level2">
-<h2>Add PBMDA column for AFB before 27yo v.s. at/after 27yo</h2>
+<h2>Add PBMDA column for AFB before 27yo vs at/after 27yo</h2>
 <pre class="r"><code># this adds a column for if participants&#39; age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
 bmd_fert_fem_mega_data &lt;- bmd_fert_fem_mega_data %&gt;%
   mutate(PBMDA = ifelse(RHD180 &lt; 27, 1, 0 ))</code></pre>
+</div>
+</div>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<div
+id="running-univariate-linear-regression-with-bmd-dxxlsbmd-vs-afb-rhd180"
+class="section level2">
+<h2>Running univariate linear regression with BMD (DXXLSBMD) vs AFB
+(RHD180)</h2>
+<pre class="r"><code># run a univariate linear regression where independent/x = AFB, dependent/y = BMD
+ULM_1 &lt;- lm(DXXLSBMD ~ RHD180, data = bmd_fert_fem_mega_data)
+
+# visualize ULM_1 via scatter plot
+ULM_1_graph &lt;- ggplot(ULM_1, aes(x=RHD180, 
+            y = DXXLSBMD)) + geom_point() 
+
+# look at the plot
+print(ULM_1_graph)</code></pre>
+<p><img src="figure/nhanes_exclusion_cleaning.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div
+id="running-univariate-linear-regression-with-bmd-dxxlsbmd-vs-binary-afb-pbmda"
+class="section level2">
+<h2>Running univariate linear regression with BMD (DXXLSBMD) vs binary
+AFB (PBMDA)</h2>
+<p>***need to know what kind of plot to do with this… (1/30)</p>
+<pre class="r"><code># run a univariate linear regression where x = AFB before PBMDA OR at/after PBMDA, y = BMD
+ULM_2 &lt;- lm(DXXLSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
+
+# visualize ULM_2 via scatter plot
+ULM_2_graph &lt;- ggplot(ULM_2, aes(x=PBMDA, 
+            y = DXXLSBMD)) + geom_point()
+
+# look at the plot
+print(ULM_2_graph)</code></pre>
+<p><img src="figure/nhanes_exclusion_cleaning.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1281,23 +1357,25 @@ attached base packages:
 [8] base     
 
 other attached packages:
-[1] tidyr_1.3.1     haven_2.5.4     survey_4.4-2    survival_3.7-0 
-[5] Matrix_1.7-1    dplyr_1.1.4     workflowr_1.7.1
+[1] ggplot2_3.5.1   tidyr_1.3.1     haven_2.5.4     survey_4.4-2   
+[5] survival_3.7-0  Matrix_1.7-1    dplyr_1.1.4     workflowr_1.7.1
 
 loaded via a namespace (and not attached):
  [1] sass_0.4.9        generics_0.1.3    stringi_1.8.4     lattice_0.22-6   
  [5] hms_1.1.3         digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3   
  [9] fastmap_1.2.0     rprojroot_2.0.4   jsonlite_1.8.9    processx_3.8.5   
 [13] whisker_0.4.1     DBI_1.2.3         ps_1.8.1          promises_1.3.2   
-[17] httr_1.4.7        purrr_1.0.2       jquerylib_0.1.4   cli_3.6.3        
-[21] mitools_2.4       rlang_1.1.5       splines_4.4.2     withr_3.0.2      
-[25] cachem_1.1.0      yaml_2.3.10       tools_4.4.2       httpuv_1.6.15    
-[29] forcats_1.0.0     vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
-[33] git2r_0.35.0      stringr_1.5.1     fs_1.6.5          foreign_0.8-87   
-[37] pkgconfig_2.0.3   callr_3.7.6       pillar_1.10.1     bslib_0.8.0      
-[41] later_1.4.1       glue_1.8.0        Rcpp_1.0.14       xfun_0.50        
-[45] tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1 knitr_1.49       
-[49] htmltools_0.5.8.1 rmarkdown_2.29    compiler_4.4.2    getPass_0.2-4    </code></pre>
+[17] httr_1.4.7        purrr_1.0.2       scales_1.3.0      jquerylib_0.1.4  
+[21] cli_3.6.3         mitools_2.4       rlang_1.1.5       munsell_0.5.1    
+[25] splines_4.4.2     withr_3.0.2       cachem_1.1.0      yaml_2.3.10      
+[29] tools_4.4.2       colorspace_2.1-1  httpuv_1.6.15     forcats_1.0.0    
+[33] vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0     
+[37] stringr_1.5.1     fs_1.6.5          foreign_0.8-87    pkgconfig_2.0.3  
+[41] callr_3.7.6       gtable_0.3.6      pillar_1.10.1     bslib_0.8.0      
+[45] later_1.4.1       glue_1.8.0        Rcpp_1.0.14       xfun_0.50        
+[49] tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1 knitr_1.49       
+[53] farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3    rmarkdown_2.29   
+[57] compiler_4.4.2    getPass_0.2-4    </code></pre>
 </div>
 </div>
 </div>
