@@ -11,6 +11,4 @@ editor_options:
 
 Click on this [link]() to see the participant exclusion criteria flowchart.
 
-Click on this [link](nhanes_exclusion_cleaning.html) to see the data cleaning.
-
-Click on this [link]() to see the analyses.
+Click on this [link](nhanes_exclusion_cleaning.html) to see analyses.

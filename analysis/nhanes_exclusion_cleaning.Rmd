@@ -7,14 +7,16 @@ editor_options:
   chunk_output_type: console
 ---
 
+# Cleaning
 
-# Downloading and Importing Datafiles
+## Downloading and Importing Datafiles
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 # Install relevant packages
 install.packages("dplyr")
 install.packages("survey")
 install.packages("haven")
 install.packages("tidyr")
+install.packages("ggplot2")
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
@@ -25,6 +27,7 @@ library(survey)
 library(haven)
 library(workflowr)
 library(tidyr)
+library(ggplot2)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -59,7 +62,7 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I
 DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
 ```
 
-# Data Cleaning
+## Data Cleaning
 ```{r}
 # combining H, I dataset
 DEMO <- bind_rows(DEMO_H, DEMO_I)
@@ -106,12 +109,41 @@ fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 
 bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXLSBMD")
 ```
 
-## Add PBMDA column for AFB before 27yo v.s. at/after 27yo
+## Add PBMDA column for AFB before 27yo vs at/after 27yo
 ```{r}
 # this adds a column for if participants' age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
 bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
   mutate(PBMDA = ifelse(RHD180 < 27, 1, 0 ))
 ```
 
+
+# Analysis
+
+## Running univariate linear regression with BMD (DXXLSBMD) vs AFB (RHD180) 
+```{r}
+# run a univariate linear regression where independent/x = AFB, dependent/y = BMD
+ULM_1 <- lm(DXXLSBMD ~ RHD180, data = bmd_fert_fem_mega_data)
+
+# visualize ULM_1 via scatter plot
+ULM_1_graph <- ggplot(ULM_1, aes(x=RHD180, 
+            y = DXXLSBMD)) + geom_point() 
+
+# look at the plot
+print(ULM_1_graph)
+```
+
+## Running univariate linear regression with BMD (DXXLSBMD) vs binary AFB (PBMDA)
+***need to know what kind of plot to do with this... (1/30)
+```{r}
+# run a univariate linear regression where x = AFB before PBMDA OR at/after PBMDA, y = BMD
+ULM_2 <- lm(DXXLSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
+
+# visualize ULM_2 via scatter plot
+ULM_2_graph <- ggplot(ULM_2, aes(x=PBMDA, 
+            y = DXXLSBMD)) + geom_point()
+
+# look at the plot
+print(ULM_2_graph)
+```
 
 
