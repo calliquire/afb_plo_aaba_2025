@@ -102,6 +102,11 @@ fem_mega_data_2 <- subset(fem_mega_data_1, !(RHD043 %in% c(7, 9, 77, 99)))
 fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
 ```
 
+### Omit participants without BMD data
+```{r}
+# this removes any participants who are missing BMD data
+bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXLSBMD")
+```
 
 
 
