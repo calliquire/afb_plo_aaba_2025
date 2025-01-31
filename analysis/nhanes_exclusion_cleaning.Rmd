@@ -163,7 +163,7 @@ ulm_nk_plot <- ggplot(ulm_nk, aes(x = RHD180,
 print(ulm_nk_plot)
 ```
 
-### Run univariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (PBMDA)
+### Run univariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB before PBMDA? (PBMDA)
 ```{r}
 # run an univariate linear regression where x = AFB (binary), y = whole spine BMD
 ulm_os_bin <- lm(DXXOSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
@@ -176,7 +176,7 @@ ulm_os_bin_plot <- ggplot(ulm_os_bin, aes(x = PBMDA, y = DXXOSBMD)) +
 print(ulm_os_bin_plot)
 ```
 
-### Run univariate linear regression with Femoral Neck BMD (DXXOSBMD) vs AFB (PBMDA)
+### Run univariate linear regression with Femoral Neck BMD (DXXOSBMD) vs AFB before PBMDA? (PBMDA)
 ```{r}
 # run an univariate linear regression where x = AFB (binary), y = femoral neck BMD
 ulm_nk_bin <- lm(DXXNKBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
@@ -192,7 +192,7 @@ print(ulm_nk_bin_plot)
 
 ## Multivariate/Multiple Linear Regressions
 
-### Run multiple linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + binary AFB (PBMDA)
+### Run multiple linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + AFB before PBMDA? (PBMDA)
 ```{r}
 # run analysis
 mlm_os <- lm(DXXOSBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
@@ -206,7 +206,7 @@ mlm_os_plot <- ggplot(mlm_os, aes(y = DXXOSBMD, x = RHD180, color = PBMDA)) + ge
 print(mlm_os_plot)
 ```
 
-### Run multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + binary AFB (PBMDA)
+### Run multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + AFB before PBMDA? (PBMDA)
 ```{r}
 # run analysis
 mlm_nk <- lm(DXXNKBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
