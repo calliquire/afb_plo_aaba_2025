@@ -17,6 +17,7 @@ install.packages("survey")
 install.packages("haven")
 install.packages("tidyr")
 install.packages("ggplot2")
+install.packages("ggbeeswarm")
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
@@ -28,6 +29,7 @@ library(haven)
 library(workflowr)
 library(tidyr)
 library(ggplot2)
+library(ggbeeswarm)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -112,6 +114,7 @@ bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXLSBMD")
 ## Add PBMDA column for AFB before 27yo vs at/after 27yo
 ```{r}
 # this adds a column for if participants' age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
+# if birth occurred before participant was 27, coded 1, if occurred on or after participant was 27, coded 0
 bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
   mutate(PBMDA = ifelse(RHD180 < 27, 1, 0 ))
 ```
@@ -121,11 +124,11 @@ bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
 
 ## Running univariate linear regression with BMD (DXXLSBMD) vs AFB (RHD180) 
 ```{r}
-# run a univariate linear regression where independent/x = AFB, dependent/y = BMD
+# run an univariate linear regression where independent/x = AFB, dependent/y = BMD
 ULM_1 <- lm(DXXLSBMD ~ RHD180, data = bmd_fert_fem_mega_data)
 
 # visualize ULM_1 via scatter plot
-ULM_1_graph <- ggplot(ULM_1, aes(x=RHD180, 
+ULM_1_graph <- ggplot(ULM_1, aes(x = RHD180, 
             y = DXXLSBMD)) + geom_point() 
 
 # look at the plot
@@ -133,14 +136,14 @@ print(ULM_1_graph)
 ```
 
 ## Running univariate linear regression with BMD (DXXLSBMD) vs binary AFB (PBMDA)
-***need to know what kind of plot to do with this... (1/30)
 ```{r}
-# run a univariate linear regression where x = AFB before PBMDA OR at/after PBMDA, y = BMD
+# run an univariate linear regression where x = AFB before PBMDA OR at/after PBMDA, y = BMD
 ULM_2 <- lm(DXXLSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
 
-# visualize ULM_2 via scatter plot
-ULM_2_graph <- ggplot(ULM_2, aes(x=PBMDA, 
-            y = DXXLSBMD)) + geom_point()
+# visualize ULM_2 via beeswarm plot
+ULM_2_graph <- ggplot(ULM_2, aes(x = PBMDA, y = DXXLSBMD)) +
+  geom_beeswarm() + scale_x_continuous(breaks=seq(0,1,by=1))
+
 
 # look at the plot
 print(ULM_2_graph)
