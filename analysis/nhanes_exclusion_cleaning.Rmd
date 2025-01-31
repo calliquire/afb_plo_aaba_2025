@@ -190,15 +190,19 @@ ulm_nk_bin_plot <- ggplot(ulm_nk_bin, aes(x = PBMDA, y = DXXNKBMD)) +
 print(ulm_nk_bin_plot)
 ```
 
-## Multivariate Linear Regressions
+## Multivariate/Multiple Linear Regressions
 
-### Run multivariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + binary AFB (PBMDA)
+### Run multiple linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + binary AFB (PBMDA)
 ```{r}
-
+mlm_os <- lm(DXXOSBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
+summary(mlm_os)
+confint(mlm_os)
 ```
 
 ### Run multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + binary AFB (PBMDA)
 ```{r}
-
+mlm_nk <- lm(DXXNKBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
+summary(mlm_nk)
+confint(mlm_nk)
 ```
 
