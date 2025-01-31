@@ -128,7 +128,7 @@ bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXOSBMD", "DXXNKBMD")
 # this adds a column for if participants' age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
 # if birth occurred before participant was 20, coded 1; if occurred on or after participant was 20, coded 0
 bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
-  mutate(PBMDA = ifelse(RHD180 < 20, 1, 0 ))
+  mutate(PBMDA = ifelse(RHD180 < 20, "yes", "no" ))
 ```
 
 
@@ -194,9 +194,16 @@ print(ulm_nk_bin_plot)
 
 ### Run multiple linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + binary AFB (PBMDA)
 ```{r}
+# run analysis
 mlm_os <- lm(DXXOSBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
 summary(mlm_os)
 confint(mlm_os)
+
+# visualize
+mlm_os_plot <- ggplot(mlm_os, aes(y = DXXOSBMD, x = RHD180, color = PBMDA)) + geom_point() + scale_x_continuous("AFB (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("Whole Spine Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + scale_color_continuous("AFB before OR on/after PBMDA (no/yes)", breaks = seq(0, 1, by = 1))
+
+# view 
+print(mlm_os_plot)
 ```
 
 ### Run multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + binary AFB (PBMDA)
