@@ -129,9 +129,9 @@ ULM_1 <- lm(DXXLSBMD ~ RHD180, data = bmd_fert_fem_mega_data)
 
 # visualize ULM_1 via scatter plot
 ULM_1_graph <- ggplot(ULM_1, aes(x = RHD180, 
-            y = DXXLSBMD)) + geom_point() 
-
-# look at the plot
+            y = DXXLSBMD)) + geom_point(alpha = 0.5) + scale_x_continuous("AFB (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2)
+  
+# view the plot
 print(ULM_1_graph)
 ```
 
@@ -142,10 +142,9 @@ ULM_2 <- lm(DXXLSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
 
 # visualize ULM_2 via beeswarm plot
 ULM_2_graph <- ggplot(ULM_2, aes(x = PBMDA, y = DXXLSBMD)) +
-  geom_beeswarm() + scale_x_continuous(breaks=seq(0,1,by=1))
+  geom_beeswarm() + scale_x_continuous("AFB before OR on/after PBMDA (no/yes)", breaks=seq(0,1,by=1)) + scale_y_continuous("Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2)
 
-
-# look at the plot
+# view the plot
 print(ULM_2_graph)
 ```
 
