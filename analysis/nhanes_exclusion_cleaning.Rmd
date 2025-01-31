@@ -136,7 +136,7 @@ bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
 
 ## Univariate Linear Regressions
 
-### Running univariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) 
+### Run univariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) 
 ```{r}
 # run an univariate linear regression where independent/x = AFB, dependent/y = whole spine BMD
 ulm_os <- lm(DXXOSBMD ~ RHD180, data = bmd_fert_fem_mega_data)
@@ -149,7 +149,7 @@ ulm_os_plot <- ggplot(ulm_os, aes(x = RHD180,
 print(ulm_os_plot)
 ```
 
-### Running univariate linear regression with Femoral Neck BMD (DXXLSBMD) vs AFB (RHD180)
+### Run univariate linear regression with Femoral Neck BMD (DXXLSBMD) vs AFB (RHD180)
 ```{r}
 # run an univariate linear regression where independent/x = AFB, dependent/y = femoral neck BMD
 ulm_nk <- lm(DXXNKBMD ~ RHD180, data = bmd_fert_fem_mega_data)
@@ -163,7 +163,7 @@ ulm_nk_plot <- ggplot(ulm_nk, aes(x = RHD180,
 print(ulm_nk_plot)
 ```
 
-### Running univariate linear regression with Whole Spine BMD (DXXOSBMD) vs binary AFB (PBMDA)
+### Run univariate linear regression with Whole Spine BMD (DXXOSBMD) vs binary AFB (PBMDA)
 ```{r}
 # run an univariate linear regression where x = AFB (binary), y = whole spine BMD
 ulm_os_bin <- lm(DXXOSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
@@ -176,7 +176,7 @@ ulm_os_bin_plot <- ggplot(ulm_os_bin, aes(x = PBMDA, y = DXXOSBMD)) +
 print(ulm_os_bin_plot)
 ```
 
-### Running univariate linear regression with Femoral Neck BMD (DXXOSBMD) vs binary AFB (PBMDA)
+### Run univariate linear regression with Femoral Neck BMD (DXXOSBMD) vs binary AFB (PBMDA)
 ```{r}
 # run an univariate linear regression where x = AFB (binary), y = femoral neck BMD
 ulm_nk_bin <- lm(DXXNKBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
@@ -192,12 +192,12 @@ print(ulm_nk_bin_plot)
 
 ## Multivariate Linear Regressions
 
-### Running multivariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + binary AFB (PBMDA)
+### Run multivariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + binary AFB (PBMDA)
 ```{r}
 
 ```
 
-### Running multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + binary AFB (PBMDA)
+### Run multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + binary AFB (PBMDA)
 ```{r}
 
 ```
