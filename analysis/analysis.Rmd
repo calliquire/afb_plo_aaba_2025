@@ -89,6 +89,7 @@ DEMO_J <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SD
 
 ```
 
+
 ### 2. Reproductive health question (RHQ) data
 ```{r}
 # Reproductive Health Questions (RHQ)
@@ -135,6 +136,7 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/RHQ_J
 RHQ_J <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 
 ```
+
 
 ### 3. Bone mineral denisty (BMD) data
 ```{r}
