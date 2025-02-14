@@ -1,0 +1,222 @@
+---
+title: "nhanes_exclusion_cleaning"
+author: "cquire"
+date: "2025-01-26"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Cleaning
+
+## Downloading and Importing Datafiles
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+# Install relevant packages
+install.packages("dplyr")
+install.packages("survey")
+install.packages("haven")
+install.packages("tidyr")
+install.packages("ggplot2")
+install.packages("ggbeeswarm")
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+#Load relevant packages
+#+ message = FALSE, warning=FALSE
+library(dplyr)
+library(survey)
+library(haven)
+library(workflowr)
+library(tidyr)
+library(ggplot2)
+library(ggbeeswarm)
+#'
+options(survey.lonely.psu='adjust')
+
+# Display Version Information
+cat("R package versions:\n")
+for (p in c("base", "survey","dplyr"))
+{ cat(p, ": ", as.character(packageVersion(p)), "\n")}
+```
+
+```{r}
+# Download and read data
+
+# Demographic (DEMO)
+# isolated participant identification/sequence number, gender, age, variances
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DEMO_E.XPT", tf <- tempfile(), mode="wb")
+DEMO_E <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DEMO_F.xpt", tf <- tempfile(), mode="wb")
+DEMO_F <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+
+# Reproductive Health Questions (RHQ)
+# isolated sequence number, age at first live birth, has had regular periods in the last 12 mo, reason for not having regular periods in last 12 mo
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/RHQ_E.XPT", tf <- tempfile(), mode="wb")
+RHQ_E <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/RHQ_F.xpt", tf <- tempfile(), mode="wb")
+RHQ_F <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
+
+# Dual-Energy X-ray Absorptiometry - Total Spine (DXXSPN)
+# isolated sequence number, total spine BMD
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DXXSPN_E.xpt", tf <- tempfile(), mode="wb")
+DXXSPN_E <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DXXSPN_F.xpt", tf <- tempfile(), mode="wb")
+DXXSPN_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
+
+# Dual-Energy X-ray Absorptiometry - Femur (DXXFEM)
+# isolated sequence number, femoral neck BMD
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DXXFEM_E.xpt", tf <- tempfile(), mode="wb")
+DXXFEM_E <- foreign::read.xport(tf)[,c("SEQN", "DXXNKBMD")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DXXFEM_F.xpt", tf <- tempfile(), mode="wb")
+DXXFEM_F <- foreign::read.xport(tf)[,c("SEQN", "DXXNKBMD")]
+
+```
+
+## Data Cleaning
+```{r}
+# combining D, E data sets
+DEMO <- bind_rows(DEMO_E, DEMO_F)
+RHQ <- bind_rows(RHQ_E, RHQ_F) 
+DXXSPN <- bind_rows(DXXSPN_E, DXXSPN_F)
+DXXFEM <- bind_rows(DXXFEM_E, DXXFEM_F)
+```
+
+## Merge DEMO, RHQ, DXX, DXXFEM data sets
+```{r}
+# merging DEMO and RHQ
+data <- left_join(DEMO, RHQ, by = "SEQN")
+
+# merging data (includes DEMO, RHQ) w/ DXXSPN
+medium_data <- left_join(data, DXXSPN, by = "SEQN")
+
+# merging medium_data (includes DEMO, RHQ, DXXSPN) w/ DXXFEM
+mega_data <- left_join(medium_data, DXXFEM, by = "SEQN")
+```
+
+## Omit missing (N/A) AFB RHQ values
+```{r}
+# removing missing AFB values from data set; will subsequently remove all males from set
+fem_mega_data <- drop_na(mega_data, "RHD180")
+```
+
+## Remove menopausal and postmenopausal participants
+*** want to omit participants who are menopausal or postmenopausal; can do so by omitting those who are:
+(1) not having a menstrual period in past 12mo and not b/c they were pregnant, breastfeeding, or had a hysterectomy, and
+  (1A) if had hysterectomy, are they below the avg age of menopause onset 49 yo
+
+```{r}
+# omit missing (N/A) values from RHQ031
+fem_mega_data_1 <- drop_na(fem_mega_data, "RHQ031")
+
+# omit participants who answer menopause (7), other (9), refused (77), don't know (99) to RHD043
+# this removes participants who aren't having periods b/c of menopause, another reason, or refused/don't know
+fem_mega_data_2 <- subset(fem_mega_data_1, !(RHD042 %in% c(7, 8, 9, 77, 99)))
+
+# omit participants who answer >/= 49 to RIDAGEYR
+# this removes participants who may have had a hysterectomy, and therefore cannot say if they are experiencing menopause (based on lack of menstruation), and are at or above the average age that menopause occurs  
+fert_fem_mega_data <- subset(fem_mega_data_2, !(RIDAGEYR %in% c(49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
+```
+
+## Omit participants without BMD data
+```{r}
+# this removes any participants who are missing BMD data
+bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXOSBMD", "DXXNKBMD")
+```
+
+## Add PBMDA column for AFB before 20yo vs at/after 20yo
+```{r}
+# this adds a column for if participants' age at first birth was before age of peak bone mineral density accrual (PBMDA) or at/after age of PBMDA
+# if birth occurred before participant was 20, coded 1; if occurred on or after participant was 20, coded 0
+bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
+  mutate(PBMDA = ifelse(RHD180 < 20, "yes", "no" ))
+```
+
+
+# Analysis
+
+## Univariate Linear Regressions
+
+### Run univariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) 
+```{r}
+# run an univariate linear regression where independent/x = AFB, dependent/y = whole spine BMD
+ulm_os <- lm(DXXOSBMD ~ RHD180, data = bmd_fert_fem_mega_data)
+
+# visualize ulm_os via scatter plot
+ulm_os_plot <- ggplot(ulm_os, aes(x = RHD180, 
+            y = DXXOSBMD)) + geom_point(alpha = 0.5) + scale_x_continuous("AFB (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("Whole Spine Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2) + geom_vline(xintercept = 20, linetype = "dashed", color = "darkorange") + geom_vline(xintercept = 22, linetype = "dashed", color = "yellow") + geom_vline(xintercept = 18, linetype = "dashed", color = "yellow")
+  
+# view the plot
+print(ulm_os_plot)
+```
+
+### Run univariate linear regression with Femoral Neck BMD (DXXLSBMD) vs AFB (RHD180)
+```{r}
+# run an univariate linear regression where independent/x = AFB, dependent/y = femoral neck BMD
+ulm_nk <- lm(DXXNKBMD ~ RHD180, data = bmd_fert_fem_mega_data)
+
+# visualize ulm_nk via scatter plot
+# ***want to add green rectangle for where avg femoral neck BMD sits***
+ulm_nk_plot <- ggplot(ulm_nk, aes(x = RHD180, 
+            y = DXXNKBMD)) + geom_point(alpha = 0.5) + scale_x_continuous("AFB (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("Femoral Neck Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + geom_vline(xintercept = 20, linetype = "dashed", color = "darkorange") + geom_vline(xintercept = 22, linetype = "dashed", color = "yellow") + geom_vline(xintercept = 18, linetype = "dashed", color = "yellow")
+  
+# view the plot
+print(ulm_nk_plot)
+```
+
+### Run univariate linear regression with Whole Spine BMD (DXXOSBMD) vs AFB before PBMDA? (PBMDA)
+```{r}
+# run an univariate linear regression where x = AFB (binary), y = whole spine BMD
+ulm_os_bin <- lm(DXXOSBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
+
+# visualize ulm_os_bin via beeswarm plot
+ulm_os_bin_plot <- ggplot(ulm_os_bin, aes(x = PBMDA, y = DXXOSBMD)) +
+  geom_beeswarm() + scale_x_discrete("AFB before PBMDA?") + scale_y_continuous("Whole Spine Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2)
+
+# view the plot
+print(ulm_os_bin_plot)
+```
+
+### Run univariate linear regression with Femoral Neck BMD (DXXOSBMD) vs AFB before PBMDA? (PBMDA)
+```{r}
+# run an univariate linear regression where x = AFB (binary), y = femoral neck BMD
+ulm_nk_bin <- lm(DXXNKBMD ~ PBMDA, data = bmd_fert_fem_mega_data)
+
+# visualize ulm_nk_bin via beeswarm plot
+# ***want to add green rectangle for where avg femoral neck BMD sits***
+ulm_nk_bin_plot <- ggplot(ulm_nk_bin, aes(x = PBMDA, y = DXXNKBMD)) +
+  geom_beeswarm() + scale_x_discrete("AFB before PBMDA?") + scale_y_continuous("Femoral Neck Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1))
+
+# view the plot
+print(ulm_nk_bin_plot)
+```
+
+## Multivariate/Multiple Linear Regressions
+
+### Run multiple linear regression with Whole Spine BMD (DXXOSBMD) vs AFB (RHD180) + AFB before PBMDA? (PBMDA)
+```{r}
+# run analysis
+mlm_os <- lm(DXXOSBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
+summary(mlm_os)
+confint(mlm_os)
+
+# visualize
+mlm_os_plot <- ggplot(mlm_os, aes(y = DXXOSBMD, x = RHD180, color = PBMDA)) + geom_point() + scale_x_continuous("AFB (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("Whole Spine Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + scale_color_discrete("AFB before PBMDA?")
+
+# view 
+print(mlm_os_plot)
+```
+
+### Run multivariate linear regression with Femoral Neck BMD (DXXNKBMD) vs AFB (RHD180) + AFB before PBMDA? (PBMDA)
+```{r}
+# run analysis
+mlm_nk <- lm(DXXNKBMD ~ RHD180 + PBMDA, data = bmd_fert_fem_mega_data)
+summary(mlm_nk)
+confint(mlm_nk)
+
+#visualize
+mlm_nk_plot <- ggplot(mlm_nk, aes(y = DXXNKBMD, x = RHD180, color = PBMDA)) + geom_point() + scale_x_continuous("AFB (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("Femoral Neck Bone Mineral Density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + scale_color_discrete("AFB before PBMDA?")
+
+# view
+print(mlm_nk_plot)
+```
+
