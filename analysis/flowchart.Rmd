@@ -8,87 +8,170 @@ editor_options:
 ---
 
 # Set up
-
 ```{r}
-# Download, install, run relevant packages
-install.packages("Gmisc")
-install.packages("glue")
-install.packages("htmlTable")
-install.packages("grid")
-install.packages("magrittr")
-install.packages("workflowr")
-
-library("Gmisc", quietly = TRUE)
-library("glue")
-library("htmlTable")
-library("grid")
-library("magrittr")
-library("workflowr")
+# download, install relevant packages
+install.packages("ggflowchart")
+install.packages("igraph")
+install.packages("rlang")
+install.packages("tibble")
+install.packages("ggplot2")
+install.packages("rcartocolor")
 ```
 
-# Build flowchart skeleton
 ```{r}
-org_cohort <- boxGrob(glue("Stockholm population",
-                           "n = {pop}",
-                           pop = txtInt(1632798),
-                           .sep = "\n"))
-eligible <- boxGrob(glue("Eligible",
-                          "n = {pop}",
-                           pop = txtInt(10032),
-                           .sep = "\n"))
-included <- boxGrob(glue("Randomized",
-                         "n = {incl}",
-                         incl = txtInt(122),
-                         .sep = "\n"))
-grp_a <- boxGrob(glue("Treatment A",
-                      "n = {recr}",
-                      recr = txtInt(43),
-                      .sep = "\n"))
-
-grp_b <- boxGrob(glue("Treatment B",
-                      "n = {recr}",
-                      recr = txtInt(122 - 43 - 30),
-                      .sep = "\n"))
-
-excluded <- boxGrob(glue("Excluded (n = {tot}):",
-                         " - not interested: {uninterested}",
-                         " - contra-indicated: {contra}",
-                         tot = 30,
-                         uninterested = 12,
-                         contra = 30 - 12,
-                         .sep = "\n"),
-                    just = "left")
-
-grid.newpage()
-vert <- spreadVertical(org_cohort,
-                       eligible = eligible,
-                       included = included,
-                       grps = grp_a)
-grps <- alignVertical(reference = vert$grps,
-                      grp_a, grp_b) %>%
-  spreadHorizontal()
-vert$grps <- NULL
-
-excluded <- moveBox(excluded,
-                    x = .8,
-                    y = coords(vert$included)$top + distance(vert$eligible, vert$included, half = TRUE, center = FALSE))
-
-for (i in 1:(length(vert) - 1)) {
-  connectGrob(vert[[i]], vert[[i + 1]], type = "vert") %>%
-    print
-}
-connectGrob(vert$included, grps[[1]], type = "N")
-connectGrob(vert$included, grps[[2]], type = "N")
-
-connectGrob(vert$eligible, excluded, type = "L")
-
-# Print boxes
-vert
-grps
-excluded
+# load relevant packages
+library(ggflowchart)
+library(dplyr)
+library(igraph)
+library(ggplot2)
+library(rlang)
+library(tibble)
+library(tidyr)
+library(ggplot2)
+library(rcartocolor)
+library(workflowr)
 ```
 
 
+# Build flowchart
+## Build basic flowchart skeleton
+```{r}
+# the following is the recipe for using ggflowchart to build flows
+# can change/edit in whatever ways needed
+
+data <- tibble::tibble(from = c("A", "A", "A", "B", "C", "F"),
+                       to = c("B", "C", "D", "E", "F", "G"))
+
+ggflowchart(data)
+```
+
+## Customize to exclusion criteria
+```{r}
+# the following are possible customizations
+
+# change color, font
+ggflowchart(data,
+            colour = "red",
+            text_colour = "red",
+            arrow_colour = "red",
+            family = "serif",
+            x_nudge = 0.25)
+
+# fill color and text color
+node_data <- tibble::tibble(
+  name = c("A", "B", "C", "D", "E", "F", "G"),
+  type = c("Type 1", "Type 1", "Type 1", "Type 1", 
+           "Type 2", "Type 2", "Type 2")
+  )
+ggflowchart(data, node_data, fill = type)
+```
+
+
+```{r}
+# more possible customizations based on goldilocks example
+
+# define input data
+goldilocks <- tibble::tibble(
+  from = c(
+    "Goldilocks",
+    "Porridge", "Porridge", "Porridge",
+    "Just right",
+    "Chairs", "Chairs", "Chairs",
+    "Just right2",
+    "Beds", "Beds", "Beds",
+    "Just right3"
+  ),
+  to = c(
+    "Porridge",
+    "Too cold", "Too hot", "Just right",
+    "Chairs",
+    "Still too big", "Too big", "Just right2",
+    "Beds",
+    "Too soft", "Too hard", "Just right3",
+    "Bears!"
+  )
+)
+
+node_data <- tibble::tibble(name = c(
+  "Goldilocks", "Porridge", "Just right", "Chairs",
+  "Just right2", "Beds", "Just right3", "Too cold",
+  "Too hot", "Still too big", "Too big", "Too soft",
+  "Too hard", "Bears!"
+)) %>%
+  dplyr::mutate(label = gsub("\\d+$", "", name))
+
+ggflowchart(goldilocks, node_data)
+
+# same but with color
+node_data <- node_data %>%
+  dplyr::mutate(
+    type = c(
+      "Character", "Question", "Answer",
+      "Question", "Answer", "Question",
+      "Answer", "Answer", "Answer",
+      "Answer", "Answer", "Answer",
+      "Answer", "Character"
+    )
+  )
+
+ggflowchart(goldilocks, node_data, fill = type)
+```
+
+```{r}
+# final (overboard) stylization options
+
+# optionally, add some styling using the {ggplot2} theme() function and title using the labs() function
+
+# add additional packages
+library(ggplot2)
+library(rcartocolor)
+
+# make flowchart
+fchart <- ggflowchart(goldilocks,
+  node_data,
+  fill = type,
+  family = "serif",
+  colour = "#585c45",
+  text_colour = "#585c45",
+  arrow_colour = "#585c45",
+  arrow_size = 0.15,
+  text_size = 2.5,
+  x_nudge = 0.45,
+  y_nudge = 0.35
+)
+
+# customize theme
+fchart +
+  scale_x_reverse() +
+  scale_fill_carto_d(palette = "Antique") +
+  labs(
+    title = "The Goldilocks Decision Tree",
+    caption = "Data: Robert Southey. Goldilocks and the Three Bears. 1837."
+  ) +
+  theme(
+    legend.position = "none",
+    plot.background = element_rect(
+      colour = "#f2e4c1",
+      fill = "#f2e4c1"
+    ),
+    plot.title = element_text(
+      size = 14,
+      hjust = 0,
+      face = "bold",
+      family = "serif",
+      colour = "#585c45"
+    ),
+    plot.caption = element_text(
+      size = 8,
+      hjust = 0,
+      lineheight = 0.5,
+      face = "bold",
+      family = "serif",
+      colour = "#585c45"
+    ),
+    plot.margin = margin(5, 5, 5, 5)
+  )
+```
 
 
 
