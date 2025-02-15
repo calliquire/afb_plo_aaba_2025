@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Set Up
+# Set up
 ## Download, install, run relevant packages
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 # Install relevant packages
@@ -39,8 +39,7 @@ for (p in c("base", "survey","dplyr"))
 ```
 
 
-# Clean
-
+# Establish data
 ## Download and read data
 ### 1. Demographic data
 ```{r}
@@ -140,7 +139,7 @@ RHQ_J <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 
 ### 3. Bone mineral denisty (BMD) data
 ```{r}
-# Dual-Energy X-Ray Absorptiometry - Whole Body, focusing in Lumbar Spine BMD
+# Dual-Energy X-Ray Absorptiometry - Whole Body, focusing in Lumbar Spine BMD (DXX)
 # isolate sequence number, lumbar spine BMD
 
 # 1999-2000
@@ -189,4 +188,14 @@ download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DXXSP
 DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
 
 ```
+
+# Clean
+## Combine the data sets
+```{r}
+# combine data sets for DEMO, RHQ, and DXX
+DEMO <- bind_rows(DEMO, DEMO_B, DEMO_C, DEMO_D, DEMO_E, DEMO_F, DEMO_G, DEMO_H, DEMO_I, DEMO_J)
+RHQ <- bind_rows(RHQ, RHQ_B, RHQ_C, RHQ_D, RHQ_E, RHQ_F, RHQ_G, RHQ_H, RHQ_I, RHQ_J) 
+DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DXX_J)
+```
+
 
