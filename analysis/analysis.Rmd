@@ -198,4 +198,12 @@ RHQ <- bind_rows(RHQ, RHQ_B, RHQ_C, RHQ_D, RHQ_E, RHQ_F, RHQ_G, RHQ_H, RHQ_I, RH
 DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DXX_J)
 ```
 
+## Merge into one main data set
+```{r}
+# merging DEMO and RHQ
+predata <- left_join(DEMO, RHQ, by = "SEQN") 
 
+# merging data (includes DEMO, RHQ) w/ DXX
+data <- left_join(predata, DXX, by = "SEQN")
+
+```
