@@ -207,13 +207,18 @@ predata <- left_join(DEMO, RHQ, by = "SEQN")
 data <- left_join(predata, DXX, by = "SEQN")
 ```
 
-## NEED TO COMBINE RHD180 and RHQ180 into one column
-
-
-## Omit missing (N/A) AFB RHQ values
+## Combine same variables into single columns if needed
 ```{r}
-# removing missing AFB values from data set; will subsequently remove all males from set
-data <- drop_na(data, "RHD180")
+# want to combine any variables that have two different variable names (e.g., RHD180 = RHQ180)
+# define separate columns for diplyr
+RHQ180 <- c(seq(12, 60, by=1), "777", "999")
+RHD180 <- c(seq(12, 60, by=1), "777", "999")
+
+# use coalesce() to combine and remove alternating N/A's
+coalesce(RHQ180, RHD180)
+
 ```
+
+
 
 
