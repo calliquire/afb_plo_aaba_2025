@@ -39,7 +39,7 @@ for (p in c("base", "survey","dplyr"))
 ```
 
 
-# Establish data
+# Import data
 ## Download and read data
 ### 1. Demographic data
 ```{r}
@@ -192,24 +192,24 @@ DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
 # Clean
 ## Combine the data sets
 ```{r}
-# combine data sets for DEMO, RHQ, and DXX
+# combine data sets for DEMO, RHQ, and DXX into three sub-sets
 DEMO <- bind_rows(DEMO, DEMO_B, DEMO_C, DEMO_D, DEMO_E, DEMO_F, DEMO_G, DEMO_H, DEMO_I, DEMO_J)
 RHQ <- bind_rows(RHQ, RHQ_B, RHQ_C, RHQ_D, RHQ_E, RHQ_F, RHQ_G, RHQ_H, RHQ_I, RHQ_J) 
 DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DXX_J)
 ```
 
-## Merge into one main data set
+## Merge sub-sets into one main data set
 ```{r}
-# merging DEMO and RHQ
+# merge DEMO + RHQ
 predata <- left_join(DEMO, RHQ, by = "SEQN") 
 
-# merging data (includes DEMO, RHQ) w/ DXX
+# merge 'predata' = DEMO, RHQ + DXX
 data <- left_join(predata, DXX, by = "SEQN")
 ```
 
-## Combine same variables into single columns if needed
+## Combine any single variables with 2+ codes into single columns 
 ```{r}
-# want to combine any variables that have two different variable names (e.g., RHD180 = RHQ180)
+# want to combine any variables that have two different variable names (e.g., RHD180 = RHQ180) into single columns
 # define separate columns for diplyr
 RHQ180 <- c(seq(12, 60, by=1), "777", "999")
 RHD180 <- c(seq(12, 60, by=1), "777", "999")
