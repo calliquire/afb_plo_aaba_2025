@@ -205,5 +205,15 @@ predata <- left_join(DEMO, RHQ, by = "SEQN")
 
 # merging data (includes DEMO, RHQ) w/ DXX
 data <- left_join(predata, DXX, by = "SEQN")
-
 ```
+
+## NEED TO COMBINE RHD180 and RHQ180 into one column
+
+
+## Omit missing (N/A) AFB RHQ values
+```{r}
+# removing missing AFB values from data set; will subsequently remove all males from set
+data <- drop_na(data, "RHD180")
+```
+
+
