@@ -198,7 +198,7 @@ RHQ <- bind_rows(RHQ, RHQ_B, RHQ_C, RHQ_D, RHQ_E, RHQ_F, RHQ_G, RHQ_H, RHQ_I, RH
 DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DXX_J)
 ```
 
-## Merge sub-sets into one main data set
+## Merge subsets into one main data set
 ```{r}
 # merge DEMO + RHQ
 predata <- left_join(DEMO, RHQ, by = "SEQN") 
@@ -207,18 +207,32 @@ predata <- left_join(DEMO, RHQ, by = "SEQN")
 data <- left_join(predata, DXX, by = "SEQN")
 ```
 
+## Omit males from data
+```{r}
+# remove male study participants from analysis data; responses to RIAGENDR coded 1
+data <- subset(data, !(RIAGENDR %in% c(1)))
+```
+
 ## Combine any single variables with 2+ codes into single columns 
 ```{r}
 # want to combine any variables that have two different variable names (e.g., RHD180 = RHQ180) into single columns
-# define separate columns for diplyr
-RHQ180 <- c(seq(12, 60, by=1), "777", "999")
-RHD180 <- c(seq(12, 60, by=1), "777", "999")
 
-# use coalesce() to combine and remove alternating N/A's
-coalesce(RHQ180, RHD180)
+# combining RHD180 and RHQ180
+data$RHX180 <- coalesce(data$RHD180, data$RHQ180)
 
+# combining DXXLSBMD and DXXOSBMD
+data$DXXBMD <- coalesce(data$DXXLSBMD, data$DXXOSBMD)
 ```
 
+## Remove any participants without BMD data
+```{r}
+data <- drop_na(data, "DXXBMD")
+```
+
+## Remove any participants without Age at First Live Birth (RHX180) data
+```{r}
+data <- drop_na(data, "RHX180")
+```
 
 
 
