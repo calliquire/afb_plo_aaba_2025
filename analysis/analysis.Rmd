@@ -217,11 +217,17 @@ data <- subset(data, !(RIAGENDR %in% c(1)))
 ```{r}
 # want to combine any variables that have two different variable names (e.g., RHD180 = RHQ180) into single columns
 
-# combining RHD180 and RHQ180
+# combine RHD180 and RHQ180
 data$RHX180 <- coalesce(data$RHD180, data$RHQ180)
 
-# combining DXXLSBMD and DXXOSBMD
+# combine DXXLSBMD and DXXOSBMD
 data$DXXBMD <- coalesce(data$DXXLSBMD, data$DXXOSBMD)
+
+# combine RHQ030 and RHQ031
+data$RHQ03X <- coalesce(data$RHQ030, data$RHQ031)
+
+# combine RHQ040, RHD042, RHD043
+data$RHQ04X <- coalesce(data$RHQ040, data$RHD042, data$RHD043)
 ```
 
 ## Remove any participants without BMD data
