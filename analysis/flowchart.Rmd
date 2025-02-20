@@ -39,8 +39,8 @@ library(workflowr)
 # the following is the recipe for using ggflowchart to build flows
 # can change/edit in whatever ways needed
 
-data <- tibble::tibble(from = c("A", "A", "A", "B", "C", "F"),
-                       to = c("B", "C", "D", "E", "F", "G"))
+data <- tibble::tibble(from = c("A", "A", "B", "B", "C", "C"),
+                       to = c("B", "D", "C", "E", "F", "G"))
 
 ggflowchart(data)
 ```
