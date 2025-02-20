@@ -264,3 +264,23 @@ data <- subset(data, !(RHQ03X %in% c(7, 9)))
 data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
 ```
 
+## Add PBMDA column for AFB before 20yo vs at/after 20yo
+```{r}
+# adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
+# if birth occurred before participant was 20 yo (accepted age of peak bone mineral density accrual), coded "yes"; if occurred when or after participant was 20 yo, coded "no"
+data <- data %>%
+  mutate(PBMDA = ifelse(RHX180 < 20, "yes", "no" ))
+```
+
+## Create simplified data frame for analyses
+```{r}
+# drop all columns that are not the combined columns, age, gender, or sequence number
+# makes for simplified data fram (named "df") for analyses purposes
+# does not delete the full data frame (named "data")
+df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ040, RHQ031, RHD042, RHD180, RHD043, DXXLSBMD, DXXOSBMD))
+```
+
+
+
+
+
