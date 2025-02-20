@@ -275,7 +275,7 @@ data <- data %>%
 ## Create simplified data frame for analyses
 ```{r}
 # drop all columns that are not the combined columns, age, gender, or sequence number
-# makes for simplified data fram (named "df") for analyses purposes
+# makes simplified data frame (named "df") for analyses purposes
 # does not delete the full data frame (named "data")
 df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ040, RHQ031, RHD042, RHD180, RHD043, DXXLSBMD, DXXOSBMD))
 ```
