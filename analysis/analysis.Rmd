@@ -230,9 +230,16 @@ data$RHQ03X <- coalesce(data$RHQ030, data$RHQ031)
 data$RHQ04X <- coalesce(data$RHQ040, data$RHD042, data$RHD043)
 ```
 
-## Omit any participants without BMD data
+## Omit any participants without BMD (DXXBMD), AFB (RHX180), period in past 12 mo? (RHQ03X)
 ```{r}
+# missing BMD data
 data <- drop_na(data, "DXXBMD")
+
+# missing AFB data
+data <- drop_na(data, "RHX180")
+
+# missing period/year data
+data <- drop_na(data, "RHQ03X")
 ```
 
 ## Omit any participants without Age at First Live Birth (RHX180) data
@@ -251,10 +258,11 @@ data <- subset(data, !(RHX180 %in% c(777, 999)))
 data <- subset(data, !(RHQ03X %in% c(7, 9)))
 ```
 
-## Omit any participants who answered menopause (coded 7), medical conditions/treatments (coded 8), other (coded 9), refused (coded 77), don't know (coded 99) to RHQ04X (Why No Period?)
+## Omit any participants who answered 5-9, 77, 99 to RHQ04X (Why No Period?)
 ```{r}
-# removes participants who aren't having periods b/c of menopause, another reason, medical reasons, or refused/don't know
-# omitting participants who answered medical conditions/treatments (8) excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
-data <- subset(data, !(RHQ04X %in% c(7, 8, 9, 77, 99)))
+# removes participants who aren't having periods b/c Periods usually irregular (coded 4), Going-gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
+# there are multiple codes for certain conditions due to inconsistencies of codes between sampling years
+# omitting participants who answered medical conditions/treatments (6, 8) excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
+data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
 ```
 
