@@ -295,7 +295,7 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ0
 df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, AFBb4PBMDA, .keep_all = TRUE)
 
 # for remaining respondents who had different BMD values for the 5 repeat measures, omit from analysis
-# NHANES analysis protocols suggest not to take average of 5 values, and instead do a complicated process to account for extra variability; for the purposes of this study (and b/c there are so many respondents), chose to omit from set
+# NHANES analysis protocols suggest not to take average of 5 values, and instead do a complicated analysis to account for extra variability; for the purposes of this study (and b/c there are so many respondents), chose to omit from set
 # extract the rows which appear only once
 df <- df %>%
   group_by(SEQN) %>%
