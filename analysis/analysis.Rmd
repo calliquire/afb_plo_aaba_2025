@@ -216,7 +216,7 @@ data <- subset(data, !(RIAGENDR %in% c(1)))
 
 ## Combine any single variables with 2+ codes into single columns 
 ```{r}
-# want to combine any variables that have two different variable names (e.g., RHD180 = RHQ180) into single columns
+# combine any variables that have two different variable names (e.g., RHD180 = RHQ180) into single columns
 
 # combine RHD180 and RHQ180
 data$RHX180 <- coalesce(data$RHD180, data$RHQ180)
@@ -256,20 +256,18 @@ data <- subset(data, !(RHQ03X %in% c(7, 9)))
 
 ## Omit any participants who answered 5-9, 77, 99 to RHQ04X (Why no period/year?)
 ```{r}
-# removes participants who aren't having periods b/c periods usually irregular (coded 4), going-gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
-# there are multiple codes for some conditions due to inconsistencies of codes between sampling years 
-
-# removes participants who answered medical conditions/treatments (6, 8)
-# this excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
+# removes participants who aren't having periods b/c: periods usually irregular (coded 4), going/gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
+# there are multiple codes for some conditions due to coding inconsistencies between sampling years
+# excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
 data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
 ```
 
-## Add PBMDA column for AFB before 20yo vs at/after 20yo
+## Add AFBb4PBMDA column for AFB before 20yo vs at/after 20yo
 ```{r}
 # adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
 # if birth occurred before participant was 20 yo (accepted age of peak bone mineral density accrual), coded "yes"; if occurred when or after participant was 20 yo, coded "no"
 data <- data %>%
-  mutate(PBMDA = ifelse(RHX180 < 20, "yes", "no" ))
+  mutate(AFBb4PBMDA = ifelse(RHX180 < 20, "yes", "no" ))
 ```
 
 ## Create simplified data frame for analyses
