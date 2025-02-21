@@ -194,7 +194,7 @@ DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
 ## Combine the data sets
 ```{r}
 # combine data sets for DEMO, RHQ, and DXX into three sub-sets
-DEMO <- bind_rows(DEMO, DEMO_B, DEMO_C, DEMO_D, DEMO_E, DEMO_F, DEMO_G, DEMO_H, DEMO_I, DEMO_J)
+DEMO_X <- bind_rows(DEMO, DEMO_B, DEMO_C, DEMO_D, DEMO_E, DEMO_F, DEMO_G, DEMO_H, DEMO_I, DEMO_J)
 RHQ <- bind_rows(RHQ, RHQ_B, RHQ_C, RHQ_D, RHQ_E, RHQ_F, RHQ_G, RHQ_H, RHQ_I, RHQ_J) 
 DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DXX_J)
 ```
@@ -204,7 +204,7 @@ DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DX
 # merge DEMO + RHQ
 predata <- left_join(DEMO, RHQ, by = "SEQN") 
 
-# merge 'predata' = DEMO, RHQ + DXX
+# merge 'predata' = DEMO, RHQ, + DXX
 data <- left_join(predata, DXX, by = "SEQN")
 ```
 
@@ -262,6 +262,15 @@ data <- subset(data, !(RHQ03X %in% c(7, 9)))
 data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
 ```
 
+## Omit any respondents 50+yo
+```{r}
+# omit participants who answer >/= 50 to RIDAGEYR
+# removes any respondent equal or older than 50yo, which is above the average age of menopause onset
+# ensures that data is constricted to those who are not in menopause
+
+data <- subset(data, !(RIDAGEYR %in% c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
+```
+
 ## Add AFBb4PBMDA column for AFB before 20yo vs at/after 20yo
 ```{r}
 # adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
@@ -280,10 +289,17 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ0
 
 ## Remove duplicate rows
 ```{r}
-# some individuals from the early years of the study have duplicate data
-# not all respondents continue throughout the whole study, and new respondants crop up each year of the study
-# remove all duplicate rows and leave one row per respondent
+# each participant from 1999-2006 has 5 repeat measures of BMD
+# need to remove duplicates, then get average BMD values for those who had different values in 2+ of the 5 repeats
+
+# for those who had the same BMD value for all 5 repeat measures, remove duplicate rows
 df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, AFBb4PBMDA, .keep_all = TRUE)
+
+# for those remaining who had different BMD values for the 5 repeat measures, take average BMD for each respondent
+
+
+
+
 ```
 
 
