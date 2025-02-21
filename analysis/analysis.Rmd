@@ -278,6 +278,13 @@ data <- data %>%
 df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ040, RHQ031, RHD042, RHD180, RHD043, DXXLSBMD, DXXOSBMD))
 ```
 
+## Remove duplicate rows
+```{r}
+# some individuals from the early years of the study have duplicate data
+# not all respondents continue throughout the whole study, and new respondants crop up each year of the study
+# remove all duplicate rows and leave one row per respondent
+df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, AFBb4PBMDA, .keep_all = TRUE)
+```
 
 
 
