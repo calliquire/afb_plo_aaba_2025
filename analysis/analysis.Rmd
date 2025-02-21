@@ -289,16 +289,18 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ0
 
 ## Remove duplicate rows
 ```{r}
-# each participant from 1999-2006 has 5 repeat measures of BMD
-# need to remove duplicates, then get average BMD values for those who had different values in 2+ of the 5 repeats
+# each participant from 1999-2006 has 5 repeat measures of BMD; these are a combination of real measures and imputed measures
 
-# for those who had the same BMD value for all 5 repeat measures, remove duplicate rows
+# for those who had the same measure for all 5 repeats, remove the duplicate rows and leave in analysis
 df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, AFBb4PBMDA, .keep_all = TRUE)
 
-# for those remaining who had different BMD values for the 5 repeat measures, take average BMD for each respondent
-
-
-
+# for remaining respondents who had different BMD values for the 5 repeat measures, omit from analysis
+# NHANES analysis protocols suggest not to take average of 5 values, and instead do a complicated process to account for extra variability; for the purposes of this study (and b/c there are so many respondents), chose to omit from set
+# extract the rows which appear only once
+df <- df %>%
+  group_by(SEQN) %>%
+  filter(n() == 1) %>%
+  ungroup()
 
 ```
 
