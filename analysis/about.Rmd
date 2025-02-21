@@ -8,8 +8,6 @@ editor_options:
 ---
 
 
-Click on this [link](flowchart.html) to see the participant exclusion criteria flowchart.
-
 Click on this [link](prelim_analysis.html) to see preliminary analyses.
 
 Click on this [link](analysis.html) to see official analyses (in progress).
