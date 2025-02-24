@@ -228,26 +228,61 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 ### Linear regression:  BMD vs AFB 
 ```{r}
-lm_1 <- ggplot(df, aes(x = AFB, 
-            y = BMD, col = RETH)) + geom_point(alpha = 0.8) + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_discrete("Race/Ethnicity")
+# scatter plot
+lm_1 <- 
+  ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
+  geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
 
 # view
 print(lm_1)
 ```
 
-### Linear regression: BMD vs PkBMD AFB
+### Linear regressions: BMD vs PkBMD AFB
 ```{r}
+# violin plot
 lm_2 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
-    geom_boxplot(alpha = 0.7) +
-    geom_jitter(size = 0.4, alpha = 0.4) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_discrete("Race/Ethnicity") + scale_fill_discrete("Age at First Birth (yrs)")
+    geom_violin(alpha = 0.3) +
+    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
 
 # view the plot
 print(lm_2)
+
+
+# box plot
+lm_3 <-
+  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
+    geom_boxplot(alpha = 0.3) +
+    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
+
+# view the plot
+print(lm_3)
 ```
 
+### Linear regressions: BMD vs PkBMD per Race/Ethnicity
+```{r}
+lm_4 <-
+  ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
+    geom_violin(alpha = 0.3) +
+    geom_jitter(size = 0.4, alpha = 0.6) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
 
+# view the plot
+print(lm_4)
+
+
+# box plot
+lm_5 <-
+  ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
+    geom_boxplot(alpha = 0.3) +
+    geom_jitter(size = 0.4, alpha = 0.4) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
+
+# view the plot
+print(lm_5)
+```
 
 
 
