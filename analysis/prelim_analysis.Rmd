@@ -129,6 +129,8 @@ bmd_fert_fem_mega_data <- drop_na(fert_fem_mega_data, "DXXOSBMD", "DXXNKBMD")
 # if birth occurred before participant was 20, coded 1; if occurred on or after participant was 20, coded 0
 bmd_fert_fem_mega_data <- bmd_fert_fem_mega_data %>%
   mutate(PBMDA = ifelse(RHD180 < 20, "yes", "no" ))
+
+print(bmd_fert_fem_mega_data)
 ```
 
 
