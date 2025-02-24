@@ -17,11 +17,14 @@ install.packages("haven")
 install.packages("tidyr")
 install.packages("ggplot2")
 install.packages("ggbeeswarm")
+install.packages("tidyverse")
+install.packages("hrbrthemes")
+install.packages("viridis")
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
-#Load relevant packages
-#+ message = FALSE, warning=FALSE
+# Load relevant packages
+# + message = FALSE, warning=FALSE
 library(dplyr)
 library(survey)
 library(haven)
@@ -29,6 +32,9 @@ library(workflowr)
 library(tidyr)
 library(ggplot2)
 library(ggbeeswarm)
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -271,12 +277,12 @@ data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
 data <- subset(data, !(RIDAGEYR %in% c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
 ```
 
-## Add AFBb4PBMDA column for AFB before 20yo vs at/after 20yo
+## Add column for AFB b4 20yo vs at/after 20yo
 ```{r}
 # adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
 # if birth occurred before participant was 20 yo (accepted age of peak bone mineral density accrual), coded "yes"; if occurred when or after participant was 20 yo, coded "no"
 data <- data %>%
-  mutate(AFBb4PBMDA = ifelse(RHX180 < 20, "yes", "no" ))
+  mutate(PkBMD = ifelse(RHX180 < 20, "yes", "no" ))
 ```
 
 ## Create simplified data frame for analyses
@@ -292,7 +298,7 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ0
 # each participant from 1999-2006 has 5 repeat measures of BMD; these are a combination of real values and imputed values
 
 # for those who had the same measure for all 5 repeats, remove the duplicate rows and leave in analysis
-df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, AFBb4PBMDA, .keep_all = TRUE)
+df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, PkBMD, .keep_all = TRUE)
 
 # for remaining respondents who had different BMD values for the 5 repeat measures, omit from analysis
 # NHANES analysis protocols suggest not to take average of 5 values, and instead do a complicated analysis to account for extra variability; for the purposes of this study (and b/c there are so many respondents), chose to omit
@@ -320,6 +326,19 @@ ulm_1_plot <- ggplot(ulm_1, aes(x = RHX180,
 
 # view
 print(ulm_1_plot)
+```
+
+### Univariate linear regression with BMD vs AFB b4 PMDA?
+```{r}
+# run an univariate linear regression where x = AFB (binary), y = BMD
+ulm_2 <- lm(DXXBMD ~ PkBMD, data = df)
+
+# visualize ulm_os_bin via beeswarm plot
+ulm_2_plot <- ggplot(ulm_2, aes(x = PkBMD, y = DXXBMD)) +
+  geom_beeswarm() + scale_x_discrete("age at first birth before peak BMD accrual?") + scale_y_continuous("bone mineral density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2)
+
+# view the plot
+print(ulm_2_plot)
 ```
 
 
