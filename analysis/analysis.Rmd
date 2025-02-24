@@ -145,53 +145,48 @@ RHQ_J <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 
 ### 3. Bone mineral denisty (BMD) data
 ```{r}
-# Dual-Energy X-Ray Absorptiometry - Whole Body, focusing in Lumbar Spine BMD (DXX)
-# isolate sequence number, lumbar spine BMD
+# Dual-Energy X-Ray Absorptiometry - Left Leg/Femur
+# isolate variables: sequence number, total femoral BMD, left leg BMD
 
 # 1999-2000
 download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx.xpt", tf <- tempfile(), mode="wb")
-DXX <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+DXX <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
 
 # 2001-2002
 download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx_B.xpt", tf <- tempfile(), mode="wb")
-DXX_B <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+DXX_B <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
 
 # 2003-2004
 download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx_c.xpt", tf <- tempfile(), mode="wb")
-DXX_C <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+DXX_C <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
 
 # 2005-2006
 download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx_d.xpt", tf <- tempfile(), mode="wb")
-DXX_D <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+DXX_D <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
+
+# 2007-2008
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DXXFEM_E.xpt", tf <- tempfile(), mode="wb")
+DXX_E <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
+
+# 2009-2010
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DXXFEM_F.xpt", tf <- tempfile(), mode="wb")
+DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
 
 # 2011-2012
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2011/DataFiles/DXX_G.xpt", tf <- tempfile(), mode="wb")
-DXX_G <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+DXX_G <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
 
 # 2013-2014
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DXX_H.xpt", tf <- tempfile(), mode="wb")
-DXX_H <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DXXFEM_H.xpt", tf <- tempfile(), mode="wb")
+DXX_H <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
 
 # 2015-2016
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt", tf <- tempfile(), mode="wb")
-DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
+DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
 
 # 2017-2018
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/DXX_J.xpt", tf <- tempfile(), mode="wb")
-DXX_J <- foreign::read.xport(tf)[,c("SEQN", "DXXLSBMD")]
-
-
-# Dual-Energy X-Ray Absorptiometry - Total Spine (DXXSPN)
-# isolated sequence number, total spine BMD
-# had to use total spine BMD for 2007-2008 and 2009-2010 data sets b/c lumber spine BMD not collected for those years
-
-# 2007-2008
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DXXSPN_E.xpt", tf <- tempfile(), mode="wb")
-DXX_E <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
-
-# 2009-2010
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DXXSPN_F.xpt", tf <- tempfile(), mode="wb")
-DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOSBMD")]
+download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/DXXFEM_J.xpt", tf <- tempfile(), mode="wb")
+DXX_J <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
 
 ```
 
@@ -208,7 +203,7 @@ DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DX
 ## Merge subsets into one main data set
 ```{r}
 # merge DEMO + RHQ
-predata <- left_join(DEMO, RHQ, by = "SEQN") 
+predata <- left_join(DEMO, RHQ, by = "SEQN")
 
 # merge 'predata' = DEMO, RHQ, + DXX
 data <- left_join(predata, DXX, by = "SEQN")
@@ -227,8 +222,8 @@ data <- subset(data, !(RIAGENDR %in% c(1)))
 # combine RHD180 and RHQ180
 data$RHX180 <- coalesce(data$RHD180, data$RHQ180)
 
-# combine DXXLSBMD and DXXOSBMD
-data$DXXBMD <- coalesce(data$DXXLSBMD, data$DXXOSBMD)
+# combine DXXLLBMD and DXXOFBMD
+data$DXXBMD <- coalesce(data$DXXLLBMD, data$DXXOFBMD)
 
 # combine RHQ030 and RHQ031
 data$RHQ03X <- coalesce(data$RHQ030, data$RHQ031)
@@ -290,7 +285,7 @@ data <- data %>%
 # drop all columns that are not the combined columns, age, gender, or sequence number
 # makes simplified data frame (named "df") for analyses purposes
 # does not delete the full data frame (named "data")
-df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ040, RHQ031, RHD042, RHD180, RHD043, DXXLSBMD, DXXOSBMD))
+df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ040, RHQ031, RHD042, RHD180, RHD043, DXXOFBMD, DXXLLBMD))
 ```
 
 ## Remove duplicate rows
@@ -333,9 +328,19 @@ print(ulm_1_plot)
 # run an univariate linear regression where x = AFB (binary), y = BMD
 ulm_2 <- lm(DXXBMD ~ PkBMD, data = df)
 
-# visualize ulm_os_bin via beeswarm plot
-ulm_2_plot <- ggplot(ulm_2, aes(x = PkBMD, y = DXXBMD)) +
-  geom_beeswarm() + scale_x_discrete("age at first birth before peak BMD accrual?") + scale_y_continuous("bone mineral density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2)
+# visualize via boxplot
+ulm_2_plot <-
+  ggplot(ulm_2, aes(x = PkBMD, y = DXXBMD, fill = PkBMD)) +
+    geom_boxplot(alpha = 0.7) +
+    scale_y_continuous(breaks = seq(0, 1.5, by = 0.1)) +
+    annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.85, ymax = 1, fill = "lightgreen", alpha = 0.2) +
+    scale_color_viridis(discrete = TRUE, option = "E", aesthetics = "color") +
+    geom_jitter(color = "black", size = 0.4, alpha = 0.4) +
+    theme(
+      legend.position = "none",
+      plot.title = element_text(size=11)
+    ) + 
+    ggtitle("Bone mineral denisty vs age at first birth before & at/after 20 yo") + xlab("age at first birth before & at/after 20 yo") + ylab("bone mineral density (g/cm^2)")
 
 # view the plot
 print(ulm_2_plot)
