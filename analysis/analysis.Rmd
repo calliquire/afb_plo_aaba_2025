@@ -224,9 +224,8 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 
 # Analysis
-## Linear Regressions
 
-### Linear regression:  BMD vs AFB 
+### Linear regression: BMD vs AFB 
 ```{r}
 # scatter plot
 lm_1 <- 
@@ -237,7 +236,7 @@ lm_1 <-
 print(lm_1)
 ```
 
-### Linear regressions: BMD vs PkBMD AFB
+### Linear regressions: BMD vs PkBMD
 ```{r}
 # violin plot
 lm_2 <-
