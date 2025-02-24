@@ -50,47 +50,23 @@ for (p in c("base", "survey","dplyr"))
 ### 1. Demographic data
 ```{r}
 ## Demographic (DEMO) data
-## isolate participant identification/sequence number, gender, age, variances
-
-# 1999-2000
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/DEMO.XPT", tf <- tempfile(), mode="wb")
-DEMO <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
-
-# 2001-2002
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/DEMO_B.XPT", tf <- tempfile(), mode="wb")
-DEMO_B <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
-
-# 2003-2004
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/DEMO_C.XPT", tf <- tempfile(), mode="wb")
-DEMO_C <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
-
-# 2005-2006
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2005/DataFiles/DEMO_D.XPT", tf <- tempfile(), mode="wb")
-DEMO_D <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+## isolate participant identification/sequence number, gender, age, variances, race/Hispanic origin
 
 # 2007-2008
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DEMO_E.XPT", tf <- tempfile(), mode="wb")
-DEMO_E <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+DEMO_E <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR", "RIDRETH1")]
 
 # 2009-2010
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DEMO_F.xpt", tf <- tempfile(), mode="wb")
-DEMO_F <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
-
-# 2011-2012
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2011/DataFiles/DEMO_G.XPT", tf <- tempfile(), mode="wb")
-DEMO_G <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+DEMO_F <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR", "RIDRETH1")]
 
 # 2013-2014
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DEMO_H.XPT", tf <- tempfile(), mode="wb")
-DEMO_H <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
-
-# 2015-2016
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DEMO_I.XPT", tf <- tempfile(), mode="wb")
-DEMO_I <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+DEMO_H <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR", "RIDRETH1")]
 
 # 2017-2018
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/DEMO_J.XPT", tf <- tempfile(), mode="wb")
-DEMO_J <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR")]
+DEMO_J <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SDMVPSU","WTMEC2YR", "RIDRETH1")]
 
 ```
 
@@ -100,22 +76,6 @@ DEMO_J <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SD
 # Reproductive Health Questions (RHQ)
 # isolate sequence number, age at first live birth, has had regular periods in the last 12 mo, reason for not having regular periods in last 12 mo
 
-# 1999-2000
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/RHQ.XPT", tf <- tempfile(), mode="wb")
-RHQ <- foreign::read.xport(tf)[,c("SEQN","RHQ180", "RHQ030", "RHQ040")]
-
-# 2001-2002
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/RHQ_B.XPT", tf <- tempfile(), mode="wb")
-RHQ_B <- foreign::read.xport(tf)[,c("SEQN","RHQ180", "RHQ030", "RHQ040")]
-
-# 2003-2004
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/RHQ_C.XPT", tf <- tempfile(), mode="wb")
-RHQ_C <- foreign::read.xport(tf)[,c("SEQN","RHQ180", "RHQ031", "RHD042")]
-
-# 2005-2006
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2005/DataFiles/RHQ_D.XPT", tf <- tempfile(), mode="wb")
-RHQ_D <- foreign::read.xport(tf)[,c("SEQN","RHQ180", "RHQ031", "RHD042")]
-
 # 2007-2008
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/RHQ_E.XPT", tf <- tempfile(), mode="wb")
 RHQ_E <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
@@ -124,17 +84,9 @@ RHQ_E <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/RHQ_F.xpt", tf <- tempfile(), mode="wb")
 RHQ_F <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
 
-# 2011-2012
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2011/DataFiles/RHQ_G.xpt", tf <- tempfile(), mode="wb")
-RHQ_G <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
-
 # 2013-2014
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/RHQ_H.xpt", tf <- tempfile(), mode="wb")
 RHQ_H <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
-
-# 2015-2016
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/RHQ_I.xpt", tf <- tempfile(), mode="wb")
-RHQ_I <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 
 # 2017-2018
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/RHQ_J.xpt", tf <- tempfile(), mode="wb")
@@ -145,48 +97,24 @@ RHQ_J <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
 
 ### 3. Bone mineral denisty (BMD) data
 ```{r}
-# Dual-Energy X-Ray Absorptiometry - Left Leg/Femur
-# isolate variables: sequence number, total femoral BMD, left leg BMD
-
-# 1999-2000
-download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx.xpt", tf <- tempfile(), mode="wb")
-DXX <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
-
-# 2001-2002
-download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx_B.xpt", tf <- tempfile(), mode="wb")
-DXX_B <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
-
-# 2003-2004
-download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx_c.xpt", tf <- tempfile(), mode="wb")
-DXX_C <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
-
-# 2005-2006
-download.file("https://wwwn.cdc.gov/nchs/data/nhanes/dxa/dxx_d.xpt", tf <- tempfile(), mode="wb")
-DXX_D <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
+# Dual-Energy X-Ray Absorptiometry - Total Femur
+# isolate sequence number, total femoral BMD
 
 # 2007-2008
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/DXXFEM_E.xpt", tf <- tempfile(), mode="wb")
-DXX_E <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
+DXX_E <- foreign::read.xport(tf)[,c("SEQN", "DXXNKBMD")]
 
 # 2009-2010
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/DXXFEM_F.xpt", tf <- tempfile(), mode="wb")
-DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
-
-# 2011-2012
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2011/DataFiles/DXX_G.xpt", tf <- tempfile(), mode="wb")
-DXX_G <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
+DXX_F <- foreign::read.xport(tf)[,c("SEQN", "DXXNKBMD")]
 
 # 2013-2014
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/DXXFEM_H.xpt", tf <- tempfile(), mode="wb")
-DXX_H <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
-
-# 2015-2016
-download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2015/DataFiles/DXX_I.xpt", tf <- tempfile(), mode="wb")
-DXX_I <- foreign::read.xport(tf)[,c("SEQN", "DXXLLBMD")]
+DXX_H <- foreign::read.xport(tf)[,c("SEQN", "DXXNKBMD")]
 
 # 2017-2018
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/DXXFEM_J.xpt", tf <- tempfile(), mode="wb")
-DXX_J <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
+DXX_J <- foreign::read.xport(tf)[,c("SEQN", "DXXNKBMD")]
 
 ```
 
@@ -195,9 +123,9 @@ DXX_J <- foreign::read.xport(tf)[,c("SEQN", "DXXOFBMD")]
 ## Combine the data sets
 ```{r}
 # combine data sets for DEMO, RHQ, and DXX into three sub-sets
-DEMO_X <- bind_rows(DEMO, DEMO_B, DEMO_C, DEMO_D, DEMO_E, DEMO_F, DEMO_G, DEMO_H, DEMO_I, DEMO_J)
-RHQ <- bind_rows(RHQ, RHQ_B, RHQ_C, RHQ_D, RHQ_E, RHQ_F, RHQ_G, RHQ_H, RHQ_I, RHQ_J) 
-DXX <- bind_rows(DXX, DXX_B, DXX_C, DXX_D, DXX_E, DXX_F, DXX_G, DXX_H, DXX_I, DXX_J)
+DEMO <- bind_rows(DEMO_E, DEMO_F, DEMO_H, DEMO_J)
+RHQ <- bind_rows(RHQ_E, RHQ_F, RHQ_H, RHQ_J) 
+DXX <- bind_rows(DXX_E, DXX_F, DXX_H, DXX_J)
 ```
 
 ## Merge subsets into one main data set
@@ -209,50 +137,51 @@ predata <- left_join(DEMO, RHQ, by = "SEQN")
 data <- left_join(predata, DXX, by = "SEQN")
 ```
 
+## Combine any single variables with 2+ codes into single columns 
+```{r}
+# combine any variables that have two different variable names (e.g., RHD042 = RHD043) into single columns
+
+# combine RHD042, RHD043
+data$RHQ04X <- coalesce(data$RHD042, data$RHD043)
+```
+
+## Simplify variable/column names
+```{r}
+data <-
+   rename(data, 
+     BMD = DXXNKBMD, AFB = RHD180, MENS = RHQ031,
+     GENDR = RIAGENDR, AGE = RIDAGEYR, RETH = RIDRETH1, NMENS = RHQ04X
+     )
+```
+
+
 ## Omit males from data
 ```{r}
 # remove male study participants from analysis data; responses to RIAGENDR coded 1
-data <- subset(data, !(RIAGENDR %in% c(1)))
-```
-
-## Combine any single variables with 2+ codes into single columns 
-```{r}
-# combine any variables that have two different variable names (e.g., RHD180 = RHQ180) into single columns
-
-# combine RHD180 and RHQ180
-data$RHX180 <- coalesce(data$RHD180, data$RHQ180)
-
-# combine DXXLLBMD and DXXOFBMD
-data$DXXBMD <- coalesce(data$DXXLLBMD, data$DXXOFBMD)
-
-# combine RHQ030 and RHQ031
-data$RHQ03X <- coalesce(data$RHQ030, data$RHQ031)
-
-# combine RHQ040, RHD042, RHD043
-data$RHQ04X <- coalesce(data$RHQ040, data$RHD042, data$RHD043)
+data <- subset(data, !(GENDR %in% c(1)))
 ```
 
 ## Omit any participants without BMD (DXXBMD), AFB (RHX180), period/year (RHQ03X) data
 ```{r}
 # missing BMD data
-data <- drop_na(data, "DXXBMD")
+data <- drop_na(data, "BMD")
 
 # missing AFB data
-data <- drop_na(data, "RHX180")
+data <- drop_na(data, "AFB")
 
 # missing period/year data
-data <- drop_na(data, "RHQ03X")
+data <- drop_na(data, "MENS")
 ```
 
 ## Omit any participants who answered "don't know" (coded 999), or "refused" (coded as 777) to AFB
 ```{r}
-data <- subset(data, !(RHX180 %in% c(777, 999)))
+data <- subset(data, !(AFB %in% c(777, 999)))
 ```
 
 ## Omit any participants who answered "don't know" (coded 9), or "refused" (coded as 7) to RHQ03X (Period in last 12 mo?)
 ```{r}
 # removes participants who don't know if they have had a period in the last 12 months
-data <- subset(data, !(RHQ03X %in% c(7, 9)))
+data <- subset(data, !(MENS %in% c(7, 9)))
 ```
 
 ## Omit any participants who answered 5-9, 77, 99 to RHQ04X (Why no period/year?)
@@ -260,7 +189,7 @@ data <- subset(data, !(RHQ03X %in% c(7, 9)))
 # removes participants who aren't having periods b/c: periods usually irregular (coded 4), going/gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
 # there are multiple codes for some conditions due to coding inconsistencies between sampling years
 # excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
-data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
+data <- subset(data, !(NMENS %in% c(5, 6, 7, 8, 9, 77, 99)))
 ```
 
 ## Omit any respondents 50+yo
@@ -269,7 +198,7 @@ data <- subset(data, !(RHQ04X %in% c(5, 6, 7, 8, 9, 77, 99)))
 # removes any respondent equal or older than 50yo, which is above the average age of menopause onset
 # ensures that data is constricted to those who are not in menopause
 
-data <- subset(data, !(RIDAGEYR %in% c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
+data <- subset(data, !(AGE %in% c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
 ```
 
 ## Add column for AFB b4 20yo vs at/after 20yo
@@ -277,73 +206,45 @@ data <- subset(data, !(RIDAGEYR %in% c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6
 # adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
 # if birth occurred before participant was 20 yo (accepted age of peak bone mineral density accrual), coded "yes"; if occurred when or after participant was 20 yo, coded "no"
 data <- data %>%
-  mutate(PkBMD = ifelse(RHX180 < 20, "yes", "no" ))
+  mutate(PkBMD = ifelse(AFB < 20, "< 20", ">/= 20"))
+```
+
+## Replace race/ethnicity codes with definitions
+```{r}
+data <- data %>% mutate(RETH=recode(RETH, '1'='Mexican American', '2'='Other Hispanic', '3' = 'Non-Hispanic White', '4' = 'Non-Hispanic Black', '5' = 'Other'))
 ```
 
 ## Create simplified data frame for analyses
 ```{r}
-# drop all columns that are not the combined columns, age, gender, or sequence number
+# drop all columns that are not the combined columns, age, gender, race/origin or sequence number
 # makes simplified data frame (named "df") for analyses purposes
 # does not delete the full data frame (named "data")
-df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHQ180, RHQ030, RHQ040, RHQ031, RHD042, RHD180, RHD043, DXXOFBMD, DXXLLBMD))
-```
-
-## Remove duplicate rows
-```{r}
-# each participant from 1999-2006 has 5 repeat measures of BMD; these are a combination of real values and imputed values
-
-# for those who had the same measure for all 5 repeats, remove the duplicate rows and leave in analysis
-df <- df %>% distinct(SEQN, RIAGENDR, RIDAGEYR, RHX180, DXXBMD, RHQ03X, RHQ04X, PkBMD, .keep_all = TRUE)
-
-# for remaining respondents who had different BMD values for the 5 repeat measures, omit from analysis
-# NHANES analysis protocols suggest not to take average of 5 values, and instead do a complicated analysis to account for extra variability; for the purposes of this study (and b/c there are so many respondents), chose to omit
-
-# extract the rows which appear only once
-df <- df %>%
-  group_by(SEQN) %>%
-  filter(n() == 1) %>%
-  ungroup()
-
+df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 ```
 
 
 # Analysis
-## Univariate Linear Regressions
+## Linear Regressions
 
-### Univariate linear regression with BMD vs AFB 
+### Linear regression:  BMD vs AFB 
 ```{r}
-# run an univariate linear regression where independent/x = AFB, dependent/y = BMD
-ulm_1 <- lm(DXXBMD ~ RHX180, data = df)
-
-# plot ulm_1 via scatter plot
-ulm_1_plot <- ggplot(ulm_1, aes(x = RHX180, 
-            y = DXXBMD)) + geom_point(alpha = 0.5) + scale_x_continuous("age at first birth (yrs)", breaks = seq(0, 40, by = 2)) + scale_y_continuous("bone mineral density (g/cm^2)", breaks = seq(0, 2, by = 0.1)) + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 1.1, ymax = 1.2, fill = "lightgreen", alpha = 0.2) + geom_vline(xintercept = 20, linetype = "dashed", color = "darkorange") + geom_vline(xintercept = 22, linetype = "dashed", color = "yellow") + geom_vline(xintercept = 18, linetype = "dashed", color = "yellow")
+lm_1 <- ggplot(df, aes(x = AFB, 
+            y = BMD, col = RETH)) + geom_point(alpha = 0.8) + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_discrete("Race/Ethnicity")
 
 # view
-print(ulm_1_plot)
+print(lm_1)
 ```
 
-### Univariate linear regression with BMD vs AFB b4 PMDA?
+### Linear regression with BMD vs AFB b4 PMDA?
 ```{r}
-# run an univariate linear regression where x = AFB (binary), y = BMD
-ulm_2 <- lm(DXXBMD ~ PkBMD, data = df)
-
-# visualize via boxplot
-ulm_2_plot <-
-  ggplot(ulm_2, aes(x = PkBMD, y = DXXBMD, fill = PkBMD)) +
+lm_2 <-
+  ggplot(df, aes(x = PkBMD, y = BMD)) +
     geom_boxplot(alpha = 0.7) +
-    scale_y_continuous(breaks = seq(0, 1.5, by = 0.1)) +
-    annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.85, ymax = 1, fill = "lightgreen", alpha = 0.2) +
-    scale_color_viridis(discrete = TRUE, option = "E", aesthetics = "color") +
-    geom_jitter(color = "black", size = 0.4, alpha = 0.4) +
-    theme(
-      legend.position = "none",
-      plot.title = element_text(size=11)
-    ) + 
-    ggtitle("Bone mineral denisty vs age at first birth before & at/after 20 yo") + xlab("age at first birth before & at/after 20 yo") + ylab("bone mineral density (g/cm^2)")
+    geom_jitter(size = 0.4, alpha = 0.4) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_discrete("Race/Ethnicity")
 
 # view the plot
-print(ulm_2_plot)
+print(lm_2)
 ```
 
 
