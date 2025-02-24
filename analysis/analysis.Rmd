@@ -235,13 +235,13 @@ lm_1 <- ggplot(df, aes(x = AFB,
 print(lm_1)
 ```
 
-### Linear regression with BMD vs AFB b4 PMDA?
+### Linear regression: BMD vs PkBMD AFB
 ```{r}
 lm_2 <-
-  ggplot(df, aes(x = PkBMD, y = BMD)) +
+  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
     geom_boxplot(alpha = 0.7) +
     geom_jitter(size = 0.4, alpha = 0.4) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_discrete("Race/Ethnicity")
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_discrete("Race/Ethnicity") + scale_fill_discrete("Age at First Birth (yrs)")
 
 # view the plot
 print(lm_2)
