@@ -227,17 +227,47 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 ### Linear regression: BMD vs AFB 
 ```{r}
-# scatter plot
+# model 1
+m_1 <-
+  lm(BMD ~ AFB, data = df)
+
+# view summary
+summary(m_1)
+
+
+
+# visualize
+# scatter plot 
 lm_1 <- 
   ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
   geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
 
 # view
 print(lm_1)
+
+# scatter plot w/ mean range (across all race/ethnicities)
+lm_1a <- 
+  ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
+  geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.7, ymax = 1,
+           alpha = .3,fill = "lightblue")
+
+# view
+print(lm_1a)
+
 ```
 
-### Linear regressions: BMD vs PkBMD
+### Linear regression: BMD vs PkBMD
 ```{r}
+# model 2
+m_2 <-
+  lm(BMD ~ PkBMD, data = df)
+
+# view summary
+summary(m_2)
+
+
+
+# visualize
 # violin plot
 lm_2 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
@@ -247,6 +277,17 @@ lm_2 <-
 
 # view the plot
 print(lm_2)
+
+# violin plot w/ mean range
+lm_2a <-
+  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
+    geom_violin(alpha = 0.3) +
+    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G") + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.7, ymax = 1,
+           alpha = .3,fill = "lightblue")
+
+# view the plot
+print(lm_2a)
 
 
 # box plot
@@ -258,10 +299,24 @@ lm_3 <-
 
 # view the plot
 print(lm_3)
+
+# box plot w/ mean range
+lm_3a <-
+  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
+    geom_boxplot(alpha = 0.3) +
+    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
+    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G") + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.7, ymax = 1,
+           alpha = .3,fill = "lightblue")
+
+# view the plot
+print(lm_3a)
 ```
 
-### Linear regressions: BMD vs PkBMD per Race/Ethnicity
+### Linear regression: BMD vs PkBMD by Race/Ethnicity
 ```{r}
+# based on the same LM, just split up by race/ethnicity
+
+# violin plot
 lm_4 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
     geom_violin(alpha = 0.3) +
