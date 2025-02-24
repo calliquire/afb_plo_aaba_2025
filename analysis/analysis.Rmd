@@ -240,16 +240,16 @@ summary(m_1)
 # scatter plot 
 lm_1 <- 
   ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
-  geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
+  geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_x_continuous(breaks = seq(0, 40, by = 2))
 
 # view
 print(lm_1)
 
-# scatter plot w/ mean range (across all race/ethnicities)
+# scatter plot w/ mean range (across all race/ethnicity) 
 lm_1a <- 
   ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
   geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.7, ymax = 1,
-           alpha = 0, color = "blue")
+           alpha = 0, color = "blue") + scale_x_continuous(breaks = seq(0, 40, by = 2))
 
 # view
 print(lm_1a)
