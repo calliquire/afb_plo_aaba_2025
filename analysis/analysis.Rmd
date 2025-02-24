@@ -22,7 +22,7 @@ install.packages("hrbrthemes")
 install.packages("viridis")
 ```
 
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 # Load relevant packages
 # + message = FALSE, warning=FALSE
 library(dplyr)
