@@ -186,19 +186,10 @@ data <- subset(data, !(MENS %in% c(7, 9)))
 
 ## Omit any participants who answered 5-9, 77, 99 to RHQ04X (Why no period/year?)
 ```{r}
-# removes participants who aren't having periods b/c: periods usually irregular (coded 4), going/gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
+# removes participants who aren't having periods b/c: hysterectomy (coded 3), periods usually irregular (coded 4), going/gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
 # there are multiple codes for some conditions due to coding inconsistencies between sampling years
 # excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
-data <- subset(data, !(NMENS %in% c(5, 6, 7, 8, 9, 77, 99)))
-```
-
-## Omit any respondents 50+yo
-```{r}
-# omit participants who answer >/= 50 to RIDAGEYR
-# removes any respondent equal or older than 50yo, which is above the average age of menopause onset
-# ensures that data is constricted to those who are not in menopause
-
-data <- subset(data, !(AGE %in% c(50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80)))
+data <- subset(data, !(NMENS %in% c(3, 4, 5, 6, 7, 8, 9, 77, 99)))
 ```
 
 ## Add column for AFB b4 20yo vs at/after 20yo
@@ -273,7 +264,7 @@ lm_2 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
     geom_violin(alpha = 0.3) +
     geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
+    ggtitle("Bone Mineral Denisty vs Age at First Birth") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
 
 # view the plot
 print(lm_2)
@@ -295,7 +286,7 @@ lm_3 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
     geom_boxplot(alpha = 0.3) +
     geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
+    ggtitle("Bone Mineral Denisty vs Age at First Birth") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
 
 # view the plot
 print(lm_3)
@@ -311,7 +302,7 @@ lm_4 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
     geom_violin(alpha = 0.3) +
     geom_jitter(size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
+    ggtitle("Bone Mineral Denisty vs Age at First Birth by Race/Ethnicity") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
 
 # view the plot
 print(lm_4)
@@ -322,7 +313,7 @@ lm_5 <-
   ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
     geom_boxplot(alpha = 0.3) +
     geom_jitter(size = 0.4, alpha = 0.4) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
+    ggtitle("Bone Mineral Denisty vs Age at First Birth by Race/Ethnicity") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
 
 # view the plot
 print(lm_5)
