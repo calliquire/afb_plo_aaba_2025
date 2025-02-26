@@ -192,12 +192,12 @@ data <- subset(data, !(MENS %in% c(7, 9)))
 data <- subset(data, !(NMENS %in% c(3, 4, 5, 6, 7, 8, 9, 77, 99)))
 ```
 
-## Add column for AFB b4 20yo vs at/after 20yo
+## Add column for AFB b4 27yo vs at/after 27yo
 ```{r}
 # adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
 # if birth occurred before participant was 20 yo (accepted age of peak bone mineral density accrual), coded "yes"; if occurred when or after participant was 20 yo, coded "no"
 data <- data %>%
-  mutate(PkBMD = ifelse(AFB < 20, "< 20", ">/= 20"))
+  mutate(PkBMD = ifelse(AFB < 27, "< 27", ">/= 27"))
 ```
 
 ## Replace race/ethnicity codes with definitions
