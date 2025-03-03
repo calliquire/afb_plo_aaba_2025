@@ -28,6 +28,7 @@ install.packages("sjPlot")
 install.packages("sjmisc") 
 install.packages("effects")
 install.packages("sjstats")
+install.packages("WriteXLS")
 ```
 
 ```{r echo=FALSE, message=TRUE, warning=FALSE, paged.print=TRUE}
@@ -51,6 +52,7 @@ library(sjPlot)
 library(sjmisc) 
 library(effects)
 library(sjstats)
+library(WriteXLS)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -234,33 +236,55 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 # Analysis
 
-### Simple linear regression: BMD v AGE (at time of scan)
+### Exploratory analysis
 ```{r}
-lm <-
-  lm(BMD ~ AGE, data = df)
-summary(lm)
-plot(lm)
+# simple regression
+lm1 <- lm(BMD ~ AFB + AGE, data = df)
+summary(lm1)
+plot(lm1$fitted.values, lm1$residuals)
 
-# visualize in scatter plot 
-lm_scatplot <- 
-  ggplot(df, aes(x = AGE, y = BMD)) + 
-  geom_point(alpha = 0.5) + scale_x_continuous(breaks = seq(0, 70, by = 5)) + labs(title = "Bone Mineral Density vs Age at Time of Scan", y = "Femoral Neck BMD (g/cm^2)", x = "Age at Time of Scan (yrs)")
-
-# view
-print(lm_scatplot)
-```
-
-
-### Linear mixed-effects model 1: BMD vs AFB, AGE, RETH
-```{r}
-# classic linear model
-lm2 <- 
-  lmer(BMD ~ AFB + AGE + RETH + (1 | SEQN), data = df)
+# added other potential variables
+lm2 <- lm(BMD ~ AFB + AGE + RETH, data = df)
 summary(lm2)
 
-# optimal random structure
-lmm1 <- lmer(BMD ~ AFB + AGE + RETH, data = df, random = ~1 | SEQN) 
-summary(lmm1)
+# testing interaction effects btw AFB and AGE
+lm3 <- lm(BMD ~ AFB * AGE + RETH, data = df)
+summary(lm3)
+
+# non-linear effect of AGE (as a polynomial term)
+lm4 <- lm(BMD ~ AFB + AGE + I(AGE^2) + RETH, data = df)
+summary(lm4)
+
+# comparing models
+anova(lm2, lm3, lm4)
+
+# diagnostic plots for each model (lm2-lm4)
+plot_model_diagnostics <- function(model) {
+  par(mfrow = c(2, 2))
+  plot(model)  # Basic diagnostic plots
+  par(mfrow = c(1, 1))
+}
+plot_model_diagnostics(lm2)
+plot_model_diagnostics(lm3)
+plot_model_diagnostics(lm4)
+
+
+# visualize BMD v AGE in scatter plot 
+plot1 <- 
+  ggplot(df, aes(x = AGE, y = BMD)) + geom_smooth(method = "lm") + 
+  geom_point(alpha = 0.5) + scale_x_continuous(breaks = seq(0, 70, by = 5)) + labs(title = "Bone Mineral Density vs Age at Time of Scan", y = "Femoral Neck BMD (g/cm^2)", x = "Age at Time of Scan (yrs)")
+print(plot1)
+
+# visualize BMD v AFB in scatter plot
+plot2 <- 
+  ggplot(df, aes(x = AFB, y = BMD)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  ggtitle("Bone Mineral Density vs Age at First Birth") +
+  xlab("Age at First Birth (yrs)") +
+  ylab("Femoral Neck BMD (g/cm^2)") +
+  scale_x_continuous(breaks = seq(0, 42, by = 2))
+print(plot2)
 
 
 
