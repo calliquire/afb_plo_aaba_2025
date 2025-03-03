@@ -20,6 +20,8 @@ install.packages("ggbeeswarm")
 install.packages("tidyverse")
 install.packages("hrbrthemes")
 install.packages("viridis")
+install.packages("nlme")
+install.packages("lme4")
 ```
 
 ```{r echo=FALSE, message=TRUE, warning=FALSE, paged.print=TRUE}
@@ -35,6 +37,8 @@ library(ggbeeswarm)
 library(tidyverse)
 library(hrbrthemes)
 library(viridis)
+library(nlme)
+library(lme4)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -200,7 +204,7 @@ data <- data %>%
   mutate(PkBMD = ifelse(AFB < 27, "< 27", ">/= 27"))
 ```
 
-## Replace race/ethnicity codes with definitions
+## Replace race/ethnicity codes with 'definitions'
 ```{r}
 data <- data %>% mutate(RETH=recode(RETH, '1'='Mexican American', '2'='Other Hispanic', '3' = 'Non-Hispanic White', '4' = 'Non-Hispanic Black', '5' = 'Other'))
 ```
@@ -215,6 +219,33 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 
 # Analysis
+
+### Linear Mixed Effects Model: BMD vs AFB, Age
+```{r}
+# BMD (bone mineral density), AFB (age at first birth), age (at time of scan)
+
+# classic linear model
+lm <- 
+  lm(BMD ~ AFB + AGE, data = df)
+summary(lm)
+plot(lm)
+
+# general linear model
+glm <-
+  gls(BMD ~ AFB + AGE, data = df, method = "ML") 
+summary(glm)
+plot(glm)
+
+# optimal random structure
+lmm1 <- lme(BMD ~ AFB + AGE, data = df, random = ~1|SEQN, method = "ML")
+summary(lmm1)
+anova(glm, lmm1)
+
+```
+
+
+
+
 
 ### Linear regression: BMD vs AFB 
 ```{r}
