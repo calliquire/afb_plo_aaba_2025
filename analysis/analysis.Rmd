@@ -22,6 +22,12 @@ install.packages("hrbrthemes")
 install.packages("viridis")
 install.packages("nlme")
 install.packages("lme4")
+install.packages("tseries")
+install.packages("cowplot")
+install.packages("sjPlot")
+install.packages("sjmisc") 
+install.packages("effects")
+install.packages("sjstats")
 ```
 
 ```{r echo=FALSE, message=TRUE, warning=FALSE, paged.print=TRUE}
@@ -39,6 +45,12 @@ library(hrbrthemes)
 library(viridis)
 library(nlme)
 library(lme4)
+library(tseries)
+library(cowplot) 
+library(sjPlot) 
+library(sjmisc) 
+library(effects)
+library(sjstats)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -158,7 +170,6 @@ data <-
      )
 ```
 
-
 ## Omit males from data
 ```{r}
 # remove male study participants from analysis data; responses to RIAGENDR coded 1
@@ -196,12 +207,15 @@ data <- subset(data, !(MENS %in% c(7, 9)))
 data <- subset(data, !(NMENS %in% c(3, 4, 5, 6, 7, 8, 9, 77, 99)))
 ```
 
-## Add column for AFB b4 27yo vs at/after 27yo
+## Add column for AFB b4 18, from 18-27, from 28+
 ```{r}
-# adds a column for if participants' AFB was *before* age of peak bone mineral density accrual (PBMDA) or *at/after* age of PBMDA
-# if birth occurred before participant was 20 yo (accepted age of peak bone mineral density accrual), coded "yes"; if occurred when or after participant was 20 yo, coded "no"
+# adds column called BINS where the following is coded: 
 data <- data %>%
-  mutate(PkBMD = ifelse(AFB < 27, "< 27", ">/= 27"))
+  mutate(BINS = case_when(
+    AFB > 18  & AFB < 27 ~ "19-26",
+    AFB < 19 ~ "</= 18", 
+    AFB > 26 ~ ">/= 27",
+  ))
 ```
 
 ## Replace race/ethnicity codes with 'definitions'
@@ -220,134 +234,35 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 # Analysis
 
-### Linear Mixed Effects Model: BMD vs AFB, Age
+### Simple linear regression: BMD v AGE (at time of scan)
 ```{r}
-# BMD (bone mineral density), AFB (age at first birth), age (at time of scan)
-
-# classic linear model
-lm <- 
-  lm(BMD ~ AFB + AGE, data = df)
+lm <-
+  lm(BMD ~ AGE, data = df)
 summary(lm)
 plot(lm)
 
-# general linear model
-glm <-
-  gls(BMD ~ AFB + AGE, data = df, method = "ML") 
-summary(glm)
-plot(glm)
+# visualize in scatter plot 
+lm_scatplot <- 
+  ggplot(df, aes(x = AGE, y = BMD)) + 
+  geom_point(alpha = 0.5) + scale_x_continuous(breaks = seq(0, 70, by = 5)) + labs(title = "Bone Mineral Density vs Age at Time of Scan", y = "Femoral Neck BMD (g/cm^2)", x = "Age at Time of Scan (yrs)")
+
+# view
+print(lm_scatplot)
+```
+
+
+### Linear mixed-effects model 1: BMD vs AFB, AGE, RETH
+```{r}
+# classic linear model
+lm2 <- 
+  lmer(BMD ~ AFB + AGE + RETH + (1 | SEQN), data = df)
+summary(lm2)
 
 # optimal random structure
-lmm1 <- lme(BMD ~ AFB + AGE, data = df, random = ~1|SEQN, method = "ML")
+lmm1 <- lmer(BMD ~ AFB + AGE + RETH, data = df, random = ~1 | SEQN) 
 summary(lmm1)
-anova(glm, lmm1)
+
+
 
 ```
-
-
-
-
-
-### Linear regression: BMD vs AFB 
-```{r}
-# model 1
-m_1 <-
-  lm(BMD ~ AFB, data = df)
-
-# view summary
-summary(m_1)
-
-
-
-# visualize
-# scatter plot 
-lm_1 <- 
-  ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
-  geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_x_continuous(breaks = seq(0, 40, by = 2))
-
-# view
-print(lm_1)
-
-# scatter plot w/ mean range (across all race/ethnicity) 
-lm_1a <- 
-  ggplot(df, aes(x = AFB, y = BMD, col = RETH)) + 
-  geom_point() + ggtitle("Bone Mineral Density vs Age at First Birth") + ylab("Femoral Neck BMD (g/cm^2)") + xlab("Age at First Birth (yrs)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.7, ymax = 1,
-           alpha = 0, color = "blue") + scale_x_continuous(breaks = seq(0, 40, by = 2))
-
-# view
-print(lm_1a)
-
-```
-
-### Linear regression: BMD vs PkBMD
-```{r}
-# model 2
-m_2 <-
-  lm(BMD ~ PkBMD, data = df)
-
-# view summary
-summary(m_2)
-
-
-
-# visualize
-# violin plot
-lm_2 <-
-  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
-    geom_violin(alpha = 0.3) +
-    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
-
-# view the plot
-print(lm_2)
-
-# violin plot w/ mean range
-lm_2a <-
-  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
-    geom_violin(alpha = 0.3) +
-    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth Before & At/After 20yo") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G") + annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.7, ymax = 1,
-           alpha = 0, color = "blue")
-
-# view the plot
-print(lm_2a)
-
-
-# box plot
-lm_3 <-
-  ggplot(df, aes(x = PkBMD, y = BMD, fill = PkBMD)) +
-    geom_boxplot(alpha = 0.3) +
-    geom_jitter(aes(color = RETH), size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_color_viridis("Race/Ethnicity", discrete = TRUE, option = "A") + scale_fill_viridis("Age at First Birth (yrs)", discrete = TRUE, option = "G")
-
-# view the plot
-print(lm_3)
-
-```
-
-### Linear regression: BMD vs PkBMD by Race/Ethnicity
-```{r}
-# based on the same LM, just split up by race/ethnicity
-
-# violin plot
-lm_4 <-
-  ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
-    geom_violin(alpha = 0.3) +
-    geom_jitter(size = 0.4, alpha = 0.6) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth by Race/Ethnicity") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
-
-# view the plot
-print(lm_4)
-
-
-# box plot
-lm_5 <-
-  ggplot(df, aes(x = PkBMD, y = BMD, fill = RETH)) +
-    geom_boxplot(alpha = 0.3) +
-    geom_jitter(size = 0.4, alpha = 0.4) +
-    ggtitle("Bone Mineral Denisty vs Age at First Birth by Race/Ethnicity") + xlab("Age at First Birth (yrs)") + ylab("Femoral Neck BMD (g/cm^2)") + scale_fill_viridis("Race/Ethnicity", discrete = TRUE, option = "A")
-
-# view the plot
-print(lm_5)
-```
-
 
