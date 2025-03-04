@@ -242,9 +242,7 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 ### Exploratory analysis
 ```{r}
-# convert variables to factors to run TukeyHSD later on
-df$AFB <- as.factor(df$AFB)
-df$AGE <- as.factor(df$AGE)
+# convert variables to factors to run TukeyHSD later on?
 
 # simple multivariate regression
 lm1 <- aov(BMD ~ AFB + AGE, data = df)
@@ -262,20 +260,8 @@ summary(lm3)
 lm4 <- aov(BMD ~ AFB + AGE + I(AGE^2) + RETH, data = df)
 summary(lm4)
 
-# find best fit model (AIC test for model fit)
-model.set <- list(lm1, lm2, lm3, lm4)
-model.names <- c("lm1", "lm2", "lm3", "lm4")
-
-aictab(model.set, modnames = model.names)
-
-# checking for homoscedasticity
-par(mfrow=c(2,2))
-plot(lm2)
-par(mfrow=c(1,1))
-
-# post-hoc test
-tukey_lm2 <- TukeyHSD(lm2)
-tukey_lm2
+# find best fit model 
+anova(lm1, lm2, lm3, lm4)
 ```
 
 ### Plot raw data
