@@ -29,6 +29,7 @@ install.packages("sjmisc")
 install.packages("effects")
 install.packages("sjstats")
 install.packages("WriteXLS")
+install.packages("AICcmodavg")
 ```
 
 ```{r echo=FALSE, message=TRUE, warning=FALSE, paged.print=TRUE}
@@ -53,6 +54,7 @@ library(sjmisc)
 library(effects)
 library(sjstats)
 library(WriteXLS)
+library(AICcmodavg)
 #'
 options(survey.lonely.psu='adjust')
 
@@ -238,44 +240,51 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 ### Exploratory analysis
 ```{r}
+# convert variables to factors to run TukeyHSD later on
+df$AFB <- as.factor(df$AFB)
+df$AGE <- as.factor(df$AGE)
+
 # simple regression
-lm1 <- lm(BMD ~ AFB + AGE, data = df)
+lm1 <- aov(BMD ~ AFB + AGE, data = df)
 summary(lm1)
-plot(lm1$fitted.values, lm1$residuals)
 
 # added other potential variables
-lm2 <- lm(BMD ~ AFB + AGE + RETH, data = df)
+lm2 <- aov(BMD ~ AFB + AGE + RETH, data = df)
 summary(lm2)
 
 # testing interaction effects btw AFB and AGE
-lm3 <- lm(BMD ~ AFB * AGE + RETH, data = df)
+lm3 <- aov(BMD ~ AFB * AGE + RETH, data = df)
 summary(lm3)
 
 # non-linear effect of AGE (as a polynomial term)
-lm4 <- lm(BMD ~ AFB + AGE + I(AGE^2) + RETH, data = df)
+lm4 <- aov(BMD ~ AFB + AGE + I(AGE^2) + RETH, data = df)
 summary(lm4)
 
-# comparing models
-anova(lm2, lm3, lm4)
+# find best fit model (AIC test for model fit)
+model.set <- list(lm1, lm2, lm3, lm4)
+model.names <- c("lm1", "lm2", "lm3", "lm4")
 
-# diagnostic plots for each model (lm2-lm4)
-plot_model_diagnostics <- function(model) {
-  par(mfrow = c(2, 2))
-  plot(model)  # Basic diagnostic plots
-  par(mfrow = c(1, 1))
-}
-plot_model_diagnostics(lm2)
-plot_model_diagnostics(lm3)
-plot_model_diagnostics(lm4)
+aictab(model.set, modnames = model.names)
 
+# checking for homoscedasticity
+par(mfrow=c(2,2))
+plot(lm2)
+par(mfrow=c(1,1))
 
-# visualize BMD v AGE in scatter plot 
+# post-hoc test
+tukey_lm2 <- TukeyHSD(lm2)
+tukey_lm2
+```
+
+### Plot raw data
+```{r}
+# visualize BMD vs AGE in scatter plot 
 plot1 <- 
   ggplot(df, aes(x = AGE, y = BMD)) + geom_smooth(method = "lm") + 
   geom_point(alpha = 0.5) + scale_x_continuous(breaks = seq(0, 70, by = 5)) + labs(title = "Bone Mineral Density vs Age at Time of Scan", y = "Femoral Neck BMD (g/cm^2)", x = "Age at Time of Scan (yrs)")
 print(plot1)
 
-# visualize BMD v AFB in scatter plot
+# visualize BMD vs AFB in scatter plot
 plot2 <- 
   ggplot(df, aes(x = AFB, y = BMD)) +
   geom_point() +
@@ -286,7 +295,15 @@ plot2 <-
   scale_x_continuous(breaks = seq(0, 42, by = 2))
 print(plot2)
 
-
+# visualize BMD vs binned AFB in box plot
+plot3 <-
+  ggplot(df, aes(x = BINS, y = BMD, fill = BINS)) +
+  geom_boxplot() +
+  labs(title = "Bone Mineral Density vs Binned Age at First Birth", x = "Age at First Birth (yrs)", y = "Femoral Neck BMD (g/cm^2)") +
+  scale_x_discrete(limits = c("</= 18","19-26",">/= 27")) +
+  scale_fill_manual(breaks = c("1", "3", "10"))
+  
+print(plot3)
 
 ```
 
