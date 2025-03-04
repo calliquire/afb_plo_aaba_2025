@@ -242,26 +242,28 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 ### Exploratory analysis
 ```{r}
-# convert variables to factors to run TukeyHSD later on?
+# convert variables to factors to run Tukey HSD later on?
 
 # simple multivariate regression
-lm1 <- aov(BMD ~ AFB + AGE, data = df)
+lm1 <- lm(BMD ~ AFB + AGE, data = df)
 summary(lm1)
 
 # added other potential variables
-lm2 <- aov(BMD ~ AFB + AGE + RETH, data = df)
+lm2 <- lm(BMD ~ AFB + AGE + RETH, data = df)
 summary(lm2)
 
 # testing interaction effects btw AFB and AGE
-lm3 <- aov(BMD ~ AFB * AGE + RETH, data = df)
+lm3 <- lm(BMD ~ AFB * AGE + RETH, data = df)
 summary(lm3)
 
 # non-linear effect of AGE (as a polynomial term)
-lm4 <- aov(BMD ~ AFB + AGE + I(AGE^2) + RETH, data = df)
+lm4 <- lm(BMD ~ AFB + AGE + I(AGE^2) + RETH, data = df)
 summary(lm4)
 
 # find best fit model 
 anova(lm1, lm2, lm3, lm4)
+
+# lm2 seems to be best fit, but stats arent great
 ```
 
 ### Plot raw data
