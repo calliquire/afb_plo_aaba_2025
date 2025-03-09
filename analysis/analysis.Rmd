@@ -98,19 +98,19 @@ DEMO_J <- foreign::read.xport(tf)[,c("SEQN","RIAGENDR","RIDAGEYR","SDMVSTRA","SD
 
 # 2007-2008
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/RHQ_E.XPT", tf <- tempfile(), mode="wb")
-RHQ_E <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
+RHQ_E <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042", "RHQ171")]
 
 # 2009-2010
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2009/DataFiles/RHQ_F.xpt", tf <- tempfile(), mode="wb")
-RHQ_F <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042")]
+RHQ_F <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD042", "RHQ171")]
 
 # 2013-2014
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2013/DataFiles/RHQ_H.xpt", tf <- tempfile(), mode="wb")
-RHQ_H <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
+RHQ_H <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043", "RHQ171")]
 
 # 2017-2018
 download.file("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/RHQ_J.xpt", tf <- tempfile(), mode="wb")
-RHQ_J <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043")]
+RHQ_J <- foreign::read.xport(tf)[,c("SEQN","RHD180", "RHQ031", "RHD043", "RHQ171")]
 
 ```
 
@@ -170,7 +170,7 @@ data$RHQ04X <- coalesce(data$RHD042, data$RHD043)
 data <-
    rename(data, 
      BMD = DXXNKBMD, AFB = RHD180, MENS = RHQ031,
-     GENDR = RIAGENDR, AGE = RIDAGEYR, RETH = RIDRETH1, NMENS = RHQ04X
+     GENDR = RIAGENDR, AGE = RIDAGEYR, RETH = RIDRETH1, NMENS = RHQ04X, PAR = RHQ171
      )
 ```
 
@@ -190,6 +190,9 @@ data <- drop_na(data, "AFB")
 
 # missing period/year data
 data <- drop_na(data, "MENS")
+
+# missing parity data
+data <- drop_na(data, "PAR")
 ```
 
 ## Omit any participants who answered "don't know" (coded 999), or "refused" (coded as 777) to AFB
@@ -211,6 +214,12 @@ data <- subset(data, !(MENS %in% c(7, 9)))
 data <- subset(data, !(NMENS %in% c(3, 4, 5, 6, 7, 8, 9, 77, 99)))
 ```
 
+## Omit any participants who answered refused or don't know to parity
+```{r}
+data <- subset(data, !(PAR %in% c(77, 99)))
+```
+
+
 ## Add column for AFB b4 18, from 18-27, from 28+
 ```{r}
 # adds column called BINS where the following is coded: 
@@ -229,18 +238,20 @@ data <- data %>% mutate(RETH = recode(RETH, '1' = 'Mexican American', '2' = 'Oth
 # STILL NEED TO COLLAPSE 'OTHER' CATEGORIES INTO ONE
 ```
 
-## Create simplified data frame for analyses
+## Create simplified data frames for analyses
 ```{r}
 # drop all columns that are not the combined columns, age, gender, race/origin or sequence number
 # makes simplified data frame (named "df") for analyses purposes
 # does not delete the full data frame (named "data")
 df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
+
 ```
 
 
-# Analysis
+# Analysis 
+## Without parity
 
-### Exploratory analysis: linear regressions, non linear regressions
+### Exploratory analysis
 ```{r}
 # convert variables to factors to run Tukey HSD later on?
 
@@ -315,10 +326,9 @@ plot4b <-
 print(plot4b)
 ```
 
-
 ### Exploratory model visualization
 ```{r}
-# visualize BMD vs AGE by binned AFB in scatter plot
+# visualize BMD vs AGE (by binned AFB) in scatter plot
 plot5 <-
   ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
   geom_point(alpha = 0.7) +
@@ -327,6 +337,15 @@ plot5 <-
   scale_x_continuous(breaks = seq(0, 70, by = 5))
 print(plot5)
 
+```
+
+# Analysis 
+## With parity
+
+### Exploratory analysis
+```{r}
 
 ```
+
+
 
