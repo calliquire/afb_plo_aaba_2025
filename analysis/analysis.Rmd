@@ -271,7 +271,8 @@ anova(lm1, lm2, lm3, lm4)
 # visualize BMD vs AGE in scatter plot 
 plot1 <- 
   ggplot(df, aes(x = AGE, y = BMD)) + geom_smooth(method = "lm") + 
-  geom_point(alpha = 0.5) + scale_x_continuous(breaks = seq(0, 70, by = 5)) + labs(title = "Bone Mineral Density vs Age at Time of Scan", y = "Femoral Neck BMD (g/cm^2)", x = "Age at Time of Scan (yrs)")
+  geom_point(alpha = 0.5) + 
+  scale_x_continuous(breaks = seq(0, 70, by = 5)) + labs(title = "Bone Mineral Density vs Age at Time of Scan", y = "Femoral Neck BMD (g/cm^2)", x = "Age at Time of Scan (yrs)")
 print(plot1)
 
 # visualize BMD vs AFB in scatter plot
@@ -289,38 +290,43 @@ print(plot2)
 plot3 <-
   ggplot(df, aes(x = BINS, y = BMD, fill = BINS)) +
   geom_boxplot() +
-  labs(title = "Bone Mineral Density vs Binned Age at First Birth", x = "Age at First Birth (yrs)", y = "Femoral Neck BMD (g/cm^2)", fill = "Binned AFB") +
+  labs(title = "Bone Mineral Density vs Binned Age at First Birth", x = "Age at First Birth (yrs)", y = "Femoral Neck BMD (g/cm^2)", fill = "AFB") +
   scale_x_discrete(limits = c("</= 18","19-26",">/= 27")) +
-  scale_fill_brewer(breaks=c('</= 18', '19-26', '>/= 27'))
+  scale_fill_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27'))
 print(plot3)
 
 # visualize BMD vs binned AFB in violin plot (by reported ancestry)
-plot4 <-
+plot4a <-
   ggplot(df, aes(x = BINS, y = BMD, fill = RETH)) +
   geom_violin() +
   geom_jitter(size = 0.5, alpha = 0.5) +
   labs(title = "Bone Mineral Density vs Binned Age at First Birth", x = "Age at First Birth (yrs)", y = "Femoral Neck BMD (g/cm^2)", fill = "Reported Ancestry") +
   scale_x_discrete(limits = c("</= 18","19-26",">/= 27")) +
-  scale_fill_brewer()
-print(plot4)
+  scale_fill_brewer(palette = "Dark2")
+print(plot4a)
 
 # visualize BMD vs binned AFB in box plot (by reported ancestry)
-plot5 <-
+plot4b <-
   ggplot(df, aes(x = BINS, y = BMD, fill = RETH)) +
   geom_boxplot() +
   labs(title = "Bone Mineral Density vs Binned Age at First Birth", x = "Age at First Birth (yrs)", y = "Femoral Neck BMD (g/cm^2)", fill = "Reported Ancestry") +
   scale_x_discrete(limits = c("</= 18","19-26",">/= 27")) +
-  scale_fill_brewer()
+  scale_fill_brewer(palette = "Dark2")
+print(plot4b)
+```
+
+
+### Exploratory model visualization
+```{r}
+# visualize BMD vs AGE by binned AFB in scatter plot
+plot5 <-
+  ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
+  geom_point(alpha = 0.7) +
+  labs(title = "Bone Mineral Density vs Age at Time of Scan", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Age at First Birth (yrs)") +
+  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27')) +
+  scale_x_continuous(breaks = seq(0, 70, by = 5))
 print(plot5)
 
 
-# visualize BMD vs AGE by binned AFB in scatter plot
-plot6 <-
-  ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
-  geom_point() +
-  labs(title = "Bone Mineral Density vs Age at Time of Scan", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Age at First Birth (yrs)") +
-  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27'))
-print(plot6)
-  
 ```
 
