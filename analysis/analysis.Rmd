@@ -219,7 +219,6 @@ data <- subset(data, !(NMENS %in% c(3, 4, 5, 6, 7, 8, 9, 77, 99)))
 data <- subset(data, !(PAR %in% c(77, 99)))
 ```
 
-
 ## Add column for AFB b4 18, from 18-27, from 28+
 ```{r}
 # adds column called BINS where the following is coded: 
@@ -335,53 +334,247 @@ print(plot5)
 ```
 
 
+# Clean
+## With parity 
+
+## Merge subsets into one main data set
+```{r}
+# first, need to clean with parity focus
+
+# merge DEMO + RHQ
+predata2 <- left_join(DEMO, RHQ, by = "SEQN")
+
+# merge 'predata' = DEMO, RHQ, + DXX
+data2 <- left_join(predata, DXX, by = "SEQN")
+```
+
+## Combine any single variables with 2+ codes into single columns
+```{r}
+# combine any variables that have two different variable names (e.g., RHD042 = RHD043) into single columns
+
+# combine RHD042, RHD043
+data2$RHQ04X <- coalesce(data2$RHD042, data2$RHD043)
+```
+
+## Simplify variable/column names
+```{r}
+data2 <-
+   rename(data2, 
+     BMD = DXXNKBMD, AFB = RHD180, MENS = RHQ031,
+     GENDR = RIAGENDR, AGE = RIDAGEYR, RETH = RIDRETH1, NMENS = RHQ04X, PAR = RHQ171
+     )
+```
+
+## Omit males from data
+```{r}
+# remove male study participants from analysis data; responses to RIAGENDR coded 1
+data2 <- subset(data2, !(GENDR %in% c(1)))
+```
+
+## Omit any participants without BMD or PARITY data
+```{r}
+# missing BMD data
+data2 <- drop_na(data2, "BMD")
+
+# missing parity data
+data2 <- drop_na(data2, "PAR")
+```
+
+## Omit any participants who answered "don't know" (coded 9), or "refused" (coded as 7) to RHQ03X (Period in last 12 mo?)
+```{r}
+# removes participants who don't know if they have had a period in the last 12 months
+data2 <- subset(data2, !(MENS %in% c(7, 9)))
+```
+
+## Omit any participants who answered 5-9, 77, 99 to RHQ04X (Why no period/year?)
+```{r}
+# removes participants who aren't having periods b/c: hysterectomy (coded 3), periods usually irregular (coded 4), going/gone through menopause (coded 5 or 7), medical conditions/treatments (coded 6 or 8), other (coded 9), refused (coded 77), don't know (coded 99)
+# there are multiple codes for some conditions due to coding inconsistencies between sampling years
+# excludes data on individuals who may not be in 'good health'-- defined 'good health' in exclusion flowchart
+data2 <- subset(data2, !(NMENS %in% c(3, 4, 5, 6, 7, 8, 9, 77, 99)))
+```
+
+## Omit any participants who answered refused or don't know to parity
+```{r}
+data2 <- subset(data2, !(PAR %in% c(77, 99)))
+```
+
+## Add column for AFB b4 18, from 18-27, from 28+
+```{r}
+# adds column called BINS where the following is coded: 
+data2 <- data2 %>%
+  mutate(BINS = case_when(
+    AFB > 18  & AFB < 27 ~ "19-26",
+    AFB < 19 ~ "</= 18", 
+    AFB > 26 ~ ">/= 27",
+  ))
+```
+
+## Replace race/ethnicity codes with 'definitions'
+```{r}
+data2 <- data2 %>% mutate(RETH = recode(RETH, '1' = 'Mexican American', '2' = 'Other Hispanic', '3' = 'Non-Hispanic White', '4' = 'Non-Hispanic Black', '5' = 'Other'))
+
+# STILL NEED TO COLLAPSE 'OTHER' CATEGORIES INTO ONE
+```
+
+## Replace parity codes with 'definitions'
+```{r}
+data2 <- data2 %>% mutate(PAR = recode(PAR, '0' = 'Nulliparous', '1' = '1', '2' = '2', '3' = '3', '4' = '4', '5' = '5', '6' = '6', '7' = '7', '8' = '8', '9' = '9', '10' = '10+'))
+```
+
+## Create simplified data frames for analyses
+```{r}
+# drop all columns that are not the combined columns, age, gender, race/origin or sequence number
+# makes simplified data frame (named "df") for analyses purposes
+# does not delete the full data frame (named "data")
+df2 <- subset(data2, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
+```
+
 # Analysis 
 ## With parity
 
 ### Exploratory analysis
 ```{r}
-# simple multivariate regression
 lm5 <- 
-  lm(BMD ~ PAR, data = df)
+  lm(BMD ~ PAR, data = df2)
 summary(lm5)
 
 lm6 <- 
-  lm(BMD ~ PAR + AGE, data = df)
+  lm(BMD ~ PAR + AGE, data = df2)
 summary(lm6)
 
 lm7 <-
-  lm(BMD ~ PAR + AGE + AFB, data = df)
+  lm(BMD ~ PAR + AGE, data = df2)
 summary(lm7)
 
 lm8 <-
-  lm(BMD ~ PAR + AGE + AFB + RETH, data = df)
+  lm(BMD ~ PAR + AGE + RETH, data = df2)
 summary(lm8)
 
 lm9 <-
-  lm(BMD ~ PAR * AGE + AFB + RETH, data = df)
+  lm(BMD ~ PAR * AGE + RETH, data = df2)
 summary(lm9)
 
 lm10 <-
-  lm(BMD ~ PAR + I(AGE^2) + AFB + RETH, data = df)
+  lm(BMD ~ PAR + I(AGE^2) + RETH, data = df2)
 summary(lm10)
 
 # find best fit model 
 anova(lm5, lm6, lm7, lm8, lm9, lm10)
 
-# lm8 seems best fit
+# lm8, lm10 seem best fits
 ```
 
 # Plots
 ```{r}
-# visualize BMD vs PAR (by age at time of scan)
+# visualize BMD vs PAR (by age at time of scan) in scatter plot
 plot6 <- 
-  ggplot(df, aes(x = PAR, y = BMD, fill = AGE)) +
+  ggplot(df2, aes(x = PAR, y = BMD, color = AGE)) +
   geom_point() +
-  scale_fill_brewer(palette = "Dark2") +
-  labs(title = "Bone Mineral Density vs Parity", x = "Parity (live births/person)", y = "Femoral Neck BMD (g/cm^2)") +
-  scale_x_continuous(breaks = seq(0, 10, by = 1))
+  labs(title = "Bone Mineral Density vs Parity in Premenopausal Participants", x = "Parity (live births/person)", y = "Femoral Neck BMD (g/cm^2)", color = "Age at Time of Scan") +
+ scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_color_viridis()
 print(plot6)
+
+
+# Binned BMD v Parity
+## avg BMD for femoral neck ranges from 0.68 to 0.95 depending on age at time of scan and reported ancestry
+
+## make new column for BMD bins called BMDCAT:
+df2 <- df2 %>%
+  mutate(BMDCAT = case_when(
+    BMD > 0.68 & BMD < 0.95 ~ "Average",
+    BMD < 0.69 ~ "Below Average", 
+    BMD > 0.94 ~ "Above Average"
+  ))
+
+## make new column for AGE bins called AGECAT:
+df2 <- df2 %>%
+  mutate(AGECAT = case_when(
+    AGE > 19 & AGE < 30 ~ "20-29",
+    AGE > 29 & AGE < 40 ~ "30-39", 
+    AGE > 39 & AGE < 50 ~ "40-49",
+    AGE > 49 & AGE < 60 ~ "50-59",
+    AGE > 59 & AGE < 70 ~ "60-69"
+  ))
+
+# make table with sample sizes to add (n =) into bar chart
+parity_count <- df2 %>% 
+  group_by(PAR) %>% 
+  summarise(number_cases = n())
+print(parity_count)
+
+## plot frequency of below-avg BMD v parity groups
+plot7 <-
+  ggplot(df2, aes(fill = BMDCAT, y = BMD, x = PAR)) + 
+  geom_bar(position = "fill", stat = "identity") +
+  labs(title = "Frequency of Below Average BMD vs Parity", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_fill_brewer(palette = "Dark2")
+print(plot7)
+
+## plot frequency of below-avg BMD v Parity groups BY AGE category 
+
+## one plot for each age cohort: 20s
+plot20s <-
+  df2 %>%
+  filter(AGECAT == c("20-29")) %>%
+  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
+  geom_bar(position = "fill", stat = "identity") +
+  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 20-29", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_fill_brewer(palette = "Dark2")
+print(plot20s)
+
+## one plot for each age cohort: 30s
+plot30s <-
+  df2 %>%
+  filter(AGECAT == c("30-39")) %>%
+  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
+  geom_bar(position = "fill", stat = "identity") +
+  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 30-39", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_fill_brewer(palette = "Dark2")
+print(plot30s)
+
+## one plot for each age cohort: 40s
+plot40s <-
+  df2 %>%
+  filter(AGECAT == c("40-49")) %>%
+  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
+  geom_bar(position = "fill", stat = "identity") +
+  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 40-49", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_fill_brewer(palette = "Dark2")
+print(plot40s)
+
+## one plot for each age cohort: 50s
+plot50s <-
+  df2 %>%
+  filter(AGECAT == c("50-59")) %>%
+  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
+  geom_bar(position = "fill", stat = "identity") +
+  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 50-59", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_fill_brewer(palette = "Dark2")
+print(plot50s)
+
+## one plot for each age cohort: 60s
+plot60s <-
+  df2 %>%
+  filter(AGECAT == c("60-69")) %>%
+  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
+  geom_bar(position = "fill", stat = "identity") +
+  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 60-69", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  scale_x_discrete(limits = c("1","2", "3", "4", "5", "6")) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  scale_fill_brewer(palette = "Dark2")
+print(plot60s)
 ```
-
-
 
