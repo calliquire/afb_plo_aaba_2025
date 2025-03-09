@@ -240,7 +240,7 @@ df <- subset(data, select = -c(SDMVSTRA, SDMVPSU, WTMEC2YR, RHD042, RHD043))
 
 # Analysis
 
-### Exploratory analysis
+### Exploratory analysis: linear regressions, non linear regressions
 ```{r}
 # convert variables to factors to run Tukey HSD later on?
 
@@ -313,5 +313,14 @@ plot5 <-
   scale_fill_brewer()
 print(plot5)
 
+
+# visualize BMD vs AGE by binned AFB in scatter plot
+plot6 <-
+  ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
+  geom_point() +
+  labs(title = "Bone Mineral Density vs Age at Time of Scan", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Age at First Birth (yrs)") +
+  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27'))
+print(plot6)
+  
 ```
 
