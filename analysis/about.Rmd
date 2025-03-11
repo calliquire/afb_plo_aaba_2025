@@ -10,4 +10,6 @@ editor_options:
 
 Click on this [link](prelim_analysis.html) to see preliminary analyses.
 
-Click on this [link](analysis.html) to see official analyses (in progress).
+Click on this [link](analysis.html) to see final analyses.
+
+Click on this [link](materials.html) to see a complete list of references and data sources for this project.

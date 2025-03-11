@@ -4,3 +4,16 @@ output: html_document
 date: "`r Sys.Date()`"
 ---
 
+# Sourcing Data
+
+If you have any questions or concerns regarding the following, please feel free to contact me at *cquire@umich.edu*.
+
+The data for this project were sourced from the U.S. Center for Disease Control, [National Health and Nutrition Examination Survey](<https://wwwn.cdc.gov/nchs/nhanes/Default.aspx>). NHANES survey data files are for public-use. The [Data User Agreement](<https://www.cdc.gov/nchs/policy/data-user-agreement.html#cdc_generic_section_2-terms-and-conditions>) was strictly followed.
+
+-   Data were sourced from the "Continuous NHANES" portion of the study from the following survey years:
+    -   2007-2008: <https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2007>
+    -   2009-2010: <https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2009> 
+    -   2013-2014: <https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2013>
+    -   2017-2018: <https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017>
+
+-   The following analytic guidelines were followed: <https://wwwn.cdc.gov/nchs/nhanes/analyticguidelines.aspx#analytic-guidelines>
