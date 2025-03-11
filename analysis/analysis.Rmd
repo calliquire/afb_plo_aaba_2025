@@ -331,6 +331,18 @@ plot5 <-
   scale_x_continuous(breaks = seq(0, 70, by = 5))
 print(plot5)
 
+# for plot 5a:
+newdf = df %>%
+    filter(BINS != "19-26")
+
+plot5a <-
+  ggplot(newdf, aes(x = AGE, y = BMD, color = BINS)) + 
+  geom_point(alpha = 0.7) +
+  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '>/= 27')) +
+  scale_x_continuous(breaks = seq(0, 70, by = 5)) +
+  geom_smooth(method = "lm")
+print(plot5a)
+
 ```
 
 
@@ -478,6 +490,19 @@ plot6 <-
 print(plot6)
 
 
+plot6a <-
+  ggplot(df2, aes(x = AGE, y = BMD, color = PAR)) +
+  geom_point()
+print(plot6a)
+
+plot6b <-
+  ggplot(df2, aes(x = BINS, y = BMD, fill = PAR, color = AGE)) +
+  geom_boxplot() +
+  geom_jitter(size = 0.5, alpha = 0.5)
+print(plot6b)
+
+
+
 # Binned BMD v Parity
 ## avg BMD for femoral neck ranges from 0.68 to 0.95 depending on age at time of scan and reported ancestry
 
@@ -514,6 +539,7 @@ plot7 <-
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   scale_fill_brewer(palette = "Dark2")
 print(plot7)
+
 
 ## plot frequency of below-avg BMD v Parity groups BY AGE category 
 
