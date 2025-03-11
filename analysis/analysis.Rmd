@@ -336,12 +336,15 @@ newdf = df %>%
     filter(BINS != "19-26")
 
 plot5a <-
-  ggplot(newdf, aes(x = AGE, y = BMD, color = BINS)) + 
+  ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
   geom_point(alpha = 0.7) +
-  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '>/= 27')) +
+  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27')) +
   scale_x_continuous(breaks = seq(0, 70, by = 5)) +
   geom_smooth(method = "lm")
 print(plot5a)
+
+
+  
 
 ```
 
@@ -497,8 +500,7 @@ print(plot6a)
 
 plot6b <-
   ggplot(df2, aes(x = BINS, y = BMD, fill = PAR, color = AGE)) +
-  geom_boxplot() +
-  geom_jitter(size = 0.5, alpha = 0.5)
+  geom_point()
 print(plot6b)
 
 
@@ -532,9 +534,8 @@ print(parity_count)
 
 ## plot frequency of below-avg BMD v parity groups
 plot7 <-
-  ggplot(df2, aes(fill = BMDCAT, y = BMD, x = PAR)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  labs(title = "Frequency of Below Average BMD vs Parity", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
+  ggplot(df2, aes(y = BMD, x = PAR)) + 
+  geom_boxplot() +
   scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   scale_fill_brewer(palette = "Dark2")
