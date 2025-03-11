@@ -4,7 +4,7 @@ output: html_document
 date: "`r Sys.Date()`"
 ---
 
-# Sourcing Data
+# Data
 
 If you have any questions or concerns regarding the following, please feel free to contact me at *cquire@umich.edu*.
 
@@ -17,3 +17,7 @@ The data for this project were sourced from the U.S. Center for Disease Control,
     -   2017-2018: <https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017>
 
 -   The following analytic guidelines were followed: <https://wwwn.cdc.gov/nchs/nhanes/analyticguidelines.aspx#analytic-guidelines>
+
+# References
+
+
