@@ -224,8 +224,7 @@ data <- subset(data, !(PAR %in% c(77, 99)))
 # adds column called BINS where the following is coded: 
 data <- data %>%
   mutate(BINS = case_when(
-    AFB > 18  & AFB < 27 ~ "19-26",
-    AFB < 19 ~ "</= 18", 
+    AFB < 27 ~ "< 27", 
     AFB > 26 ~ ">/= 27",
   ))
 ```
@@ -325,9 +324,9 @@ print(plot4b)
 # ***********************afb
 plot5 <-
   ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
-  geom_point(alpha = 0.6, size = 0.5) +
-  labs(title = "Association between Age at First Birth and Bone Mineral Density", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "AFB (yrs)") +
-  scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27')) +
+  geom_point(alpha = 0.4, size = 0.5) +
+  labs(title = "Relationship between Age at First Birth and Bone Mineral Density", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Age at First Birth (yrs)") +
+  scale_color_brewer(palette = "Set1") +
   scale_x_continuous(breaks = seq(0, 70, by = 5)) +
   geom_smooth(method = "lm", se = F)
 print(plot5)
@@ -478,10 +477,10 @@ anova(lm5, lm6, lm7, lm8, lm9, lm10)
 # ********************* parity
 plot6 <- 
   ggplot(df2, aes(x = AGE, y = BMD, color = PARBIN)) +
-  geom_point(alpha = 0.6, size = 0.5) +
-  scale_color_brewer(palette = "Dark2", breaks = c('Nulliparous', '1-3', '4-6', '7-9', '10+')) +
+  geom_point(alpha = 0.3, size = 0.5) +
+  scale_color_brewer(palette = "Set1", breaks = c('Nulliparous', '1-3', '4-6', '7-9', '10+')) +
   scale_x_continuous(breaks = seq(0, 70, by = 5)) +
-  labs(title = "Association between Parity and Bone Mineral Density", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Parity (live births/indiv.)") +
+  labs(title = "Relationship between Parity and Bone Mineral Density", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Parity (live births/indiv.)") +
   geom_smooth(method = "lm", se = F)
 print(plot6)
 
@@ -495,7 +494,7 @@ print(plot6)
 # don't need to control for age at time of scan here b/c restricting dataset to individuals aged 30-55
 
 # restrict participants to 35-55
-df3 <- subset(df2, !(AGE %in% c(0:34)))
+df3 <- subset(df, !(AGE %in% c(0:34)))
 df3 <- subset(df3, !(AGE %in% c(56:100)))
 
 # add column called PARBIN where the following is coded: 
@@ -511,11 +510,11 @@ df3 <- df3 %>%
 # ******************** parity and afb
 plot8 <-
   ggplot(df3, aes(x = PARBIN, y = BMD, fill = BINS)) + 
-  geom_boxplot(color = "blue") +
-  scale_fill_brewer(palette = "Set2", breaks=c('</= 18', '19-26', '>/= 27')) +
+  geom_boxplot() +
+  scale_fill_brewer(palette = "Set1", breaks=c('< 27', '>/= 27')) +
   scale_x_discrete(limits = c('1-3', '4-6', '7-9', '10+')) +
-  geom_jitter(size = 0.4, alpha = 0.5) +
-  labs(title = "Association between Parity & Age at First Birth and Bone Mineral Density", y =  "Femoral Neck BMD (g/cm^2)", x = "Parity (live births/indiv.)", fill = "AFB")
+  geom_jitter(size = 0.4, alpha = 0.3) +
+  labs(title = "Relationship between Parity & Age at First Birth and Bone Mineral Density", y =  "Femoral Neck BMD (g/cm^2)", x = "Parity (live births/indiv.)", fill = "Age at First Birth (yrs)")
 print(plot8)
 ```
 
@@ -524,68 +523,4 @@ print(plot8)
 
 
 
-
-### *IGNORE:* Frequency plots
-```{r}
-## plot frequency of below-avg BMD v Parity groups BY AGE category 
-## one plot for each age cohort: 20s
-plot20s <-
-  df2 %>%
-  filter(AGECAT == c("20-29")) %>%
-  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 20-29", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
-  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5")) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_fill_brewer(palette = "Dark2")
-print(plot20s)
-
-## one plot for each age cohort: 30s
-plot30s <-
-  df2 %>%
-  filter(AGECAT == c("30-39")) %>%
-  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 30-39", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
-  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8")) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_fill_brewer(palette = "Dark2")
-print(plot30s)
-
-## one plot for each age cohort: 40s
-plot40s <-
-  df2 %>%
-  filter(AGECAT == c("40-49")) %>%
-  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 40-49", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
-  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_fill_brewer(palette = "Dark2")
-print(plot40s)
-
-## one plot for each age cohort: 50s
-plot50s <-
-  df2 %>%
-  filter(AGECAT == c("50-59")) %>%
-  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 50-59", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
-  scale_x_discrete(limits = c("Nulliparous","1","2", "3", "4", "5", "6", "7", "8", "9", "10+")) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_fill_brewer(palette = "Dark2")
-print(plot50s)
-
-## one plot for each age cohort: 60s
-plot60s <-
-  df2 %>%
-  filter(AGECAT == c("60-69")) %>%
-  ggplot(aes(fill = BMDCAT, y = BMD, x = PAR)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  labs(title = "Frequency of Below Average BMD vs Parity for participants aged 60-69", x = "Parity (live births/participant)", y = "% of Participants", fill = "BMD (Femoral Neck)") +
-  scale_x_discrete(limits = c("1","2", "3", "4", "5", "6")) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_fill_brewer(palette = "Dark2")
-print(plot60s)
-```
 
