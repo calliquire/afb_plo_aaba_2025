@@ -12,4 +12,4 @@ Click on this [link](prelim_analysis.html) to see preliminary analyses.
 
 Click on this [link](analysis.html) to see final analyses.
 
-Click on this [link](materials.html) to see a complete list of references and data sources for this project.
+Click on this [link](materials.html) to see a complete list of references and materials for this project.

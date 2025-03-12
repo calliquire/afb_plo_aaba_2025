@@ -31,11 +31,14 @@ Jáuregui, Edwin, Marianella Galvis, Viviana Moncaleano, Katherine González, an
 Kaya, Aski, Ozan Doğan, Alper Başbuğ, Cemil Sönmez, Mehmet Sungur, and Safinaz Ataoğlu. “An Evaluation of the Association of Reproductive History and Multiple Births during Adolescence with Postmenopausal Osteoporosis.” Geburtshilfe Und Frauenheilkunde 79, no. 03 (March 2019): 300–307. https://doi.org/10.1055/a-0743-7260.
 
 Looker, A. C., H. W. Wahner, W. L. Dunn, M. S. Calvo, T. B. Harris, S. P. Heyse, C. C. Johnston Jr, and R. Lindsay. “Updated Data on Proximal Femur Bone Mineral Levels of US Adults.” Osteoporosis International 8, no. 5 (August 1, 1998): 468–90. https://doi.org/10.1007/s001980050093.
+
 “Menopause.” Nature Reviews Disease Primers 1, no. 1 (April 23, 2015): 15054. https://doi.org/10.1038/nrdp.2015.54.
 
-on behalf of the Scientific Advisory Board of the European Society for Clinical and Economic Aspects of Osteoporosis (ESCEO) and the Committees of Scientific Advisors and National Societies of the International Osteoporosis Foundation (IOF), J.A. Kanis, C. Cooper, R. Rizzoli, and J.-Y. Reginster. “European Guidance for the Diagnosis and Management of Osteoporosis in Postmenopausal Women.” Osteoporosis International 30, no. 1 (January 18, 2019): 3–44. https://doi.org/10.1007/s00198-018-4704-5.
+On behalf of the Scientific Advisory Board of the European Society for Clinical and Economic Aspects of Osteoporosis (ESCEO) and the Committees of Scientific Advisors and National Societies of the International Osteoporosis Foundation (IOF), J.A. Kanis, C. Cooper, R. Rizzoli, and J.-Y. Reginster. “European Guidance for the Diagnosis and Management of Osteoporosis in Postmenopausal Women.” Osteoporosis International 30, no. 1 (January 18, 2019): 3–44. https://doi.org/10.1007/s00198-018-4704-5.
 
 Qian, Ying, Jingming Wang, Aifang Wu, and Weimin Huang. “Pregnancy- and Lactation-Associated Osteoporosis: A Case Series of 6 Patients.” Medicine 103, no. 12 (March 22, 2024): e37430. https://doi.org/10.1097/MD.0000000000037430.
+
+Rodrick, E., & Kindler, J. M. (2024). Bone mass accrual in children. Current opinion in endocrinology, diabetes, and obesity, 31(1), 53–59. https://doi.org/10.1097/MED.0000000000000849 
 
 Salari, Pooneh, and Mohammad Abdollahi. “The Influence of Pregnancy and Lactation on Maternal Bone Health: A Systematic Review,” July 2014.
 
@@ -48,3 +51,4 @@ Xue, Shanshan, Oumer Kemal, Meihan Lu, Lisa M. Lix, William D. Leslie, and Shuma
 
 Yang, Yimei, Shanshan Wang, and Hui Cong. “Association between Parity and Bone Mineral Density in Postmenopausal Women.” BMC Women’s Health 22, no. 1 (December 2022): 87. https://doi.org/10.1186/s12905-022-01662-9.
 
+Yüce, T., Kalafat, E., & Koc, A. (2015). Adolescent pregnancy; a determinant of bone mineral density in peri-menopausal women?. Maturitas, 82(2), 203–207. https://doi.org/10.1016/j.maturitas.2015.07.007 
