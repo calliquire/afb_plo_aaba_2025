@@ -323,11 +323,10 @@ plot4b <-
 print(plot4b)
 
 # ***********************afb
-
 plot5 <-
   ggplot(df, aes(x = AGE, y = BMD, color = BINS)) + 
   geom_point(alpha = 0.6, size = 0.5) +
-  labs(title = "BMD vs Age at Time of Scan by AFB", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Age at First Birth (yrs)") +
+  labs(title = "Association between Age at First Birth and Bone Mineral Density", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "AFB (yrs)") +
   scale_color_brewer(palette = "Dark2", breaks=c('</= 18', '19-26', '>/= 27')) +
   scale_x_continuous(breaks = seq(0, 70, by = 5)) +
   geom_smooth(method = "lm", se = F)
@@ -480,10 +479,9 @@ anova(lm5, lm6, lm7, lm8, lm9, lm10)
 plot6 <- 
   ggplot(df2, aes(x = AGE, y = BMD, color = PARBIN)) +
   geom_point(alpha = 0.6, size = 0.5) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   scale_color_brewer(palette = "Dark2", breaks = c('Nulliparous', '1-3', '4-6', '7-9', '10+')) +
   scale_x_continuous(breaks = seq(0, 70, by = 5)) +
-  labs(title = "Bone Mineral Density vs Age at Time of Scan by Parity", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Parity") +
+  labs(title = "Association between Parity and Bone Mineral Density", x = "Age at Time of Scan (yrs)", y = "Femoral Neck BMD (g/cm^2)", color = "Parity (live births/indiv.)") +
   geom_smooth(method = "lm", se = F)
 print(plot6)
 
@@ -496,12 +494,8 @@ print(plot6)
 # BMD v Parity, AFB colors
 # don't need to control for age at time of scan here b/c restricting dataset to individuals aged 30-55
 
-# remove noise of middle AFBs
-df3 = df %>%
-    filter(BINS != "19-26")
-
-# restrict participants to 30-55
-df3 <- subset(df3, !(AGE %in% c(0:34)))
+# restrict participants to 35-55
+df3 <- subset(df2, !(AGE %in% c(0:34)))
 df3 <- subset(df3, !(AGE %in% c(56:100)))
 
 # add column called PARBIN where the following is coded: 
@@ -517,13 +511,12 @@ df3 <- df3 %>%
 # ******************** parity and afb
 plot8 <-
   ggplot(df3, aes(x = PARBIN, y = BMD, fill = BINS)) + 
-  geom_boxplot(color = 'red') +
-  scale_fill_brewer(palette = "Set2", breaks=c('</= 18', '>/= 27')) +
+  geom_boxplot(color = "blue") +
+  scale_fill_brewer(palette = "Set2", breaks=c('</= 18', '19-26', '>/= 27')) +
   scale_x_discrete(limits = c('1-3', '4-6', '7-9', '10+')) +
-  geom_jitter(size = 0.4, alpha = 0.4) +
-  labs(title = "Bone Mineral Density vs Parity grouped by Age at First Birth", y =  "Femoral Neck BMD (g/cm^2)", x = "Parity (live births/person)", fill = "AFB")
+  geom_jitter(size = 0.4, alpha = 0.5) +
+  labs(title = "Association between Parity & Age at First Birth and Bone Mineral Density", y =  "Femoral Neck BMD (g/cm^2)", x = "Parity (live births/indiv.)", fill = "AFB")
 print(plot8)
-
 ```
 
 
