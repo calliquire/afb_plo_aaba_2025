@@ -13,10 +13,15 @@ Continued analysis for the expansion of the project into a full length paper wil
 
 Tasks for paper expansion:
 
-1.  convert BMD to T and Z scores
-2.  rerun analyses with T and Z score equivalents (BMD v AFB and BMD v Parity)
-3.  build literature
-4.  
+-   convert BMD to T and Z scores
+
+-   rerun original analyses with T and Z score equivalents (BMD v AFB and BMD v Parity)
+
+    -   run new analyses with T and Z scores, \*\*\* maureen advise
+
+-   build literature
+
+-   
 
 ```{r}
 
