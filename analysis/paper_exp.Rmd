@@ -21,8 +21,17 @@ Tasks for paper expansion:
 
 -   build literature
 
--   
+
 
 ```{r}
+# T SCORE CALCULATION
+
+# sample reference values for T-score calculation based on NHANES III non-Hispanic White women aged 20–29
+mean_t <- 0.858
+sd_t <- 0.120
+
+# calculate T-scores
+df2$t_score <- (df2$BMD - mean_t) / sd_t
+
 
 ```
