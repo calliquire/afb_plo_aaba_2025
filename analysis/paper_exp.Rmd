@@ -8,9 +8,16 @@ editor_options:
 ---
 
 ## Introduction
-Continued analysis for the expansion of the project into a full length paper will follow below:
+
+Continued analysis for the expansion of the project into a full length paper will populate below:
+
+Tasks for paper expansion:
+
+1.  convert BMD to T and Z scores
+2.  rerun analyses with T and Z score equivalents (BMD v AFB and BMD v Parity)
+3.  build literature
+4.  
 
 ```{r}
 
 ```
-
