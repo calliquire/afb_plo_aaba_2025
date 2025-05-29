@@ -1,0 +1,16 @@
+---
+title: "paper_exp"
+author: "Calli Quire"
+date: "2025-05-29"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+Continued analysis for the expansion of the project into a full length paper will follow below:
+
+```{r}
+
+```
+
