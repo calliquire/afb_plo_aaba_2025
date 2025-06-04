@@ -50,7 +50,6 @@ df2$t_score <- (df2$BMD - mean_t) / sd_t
 dfref <- `Femoral.Neck.BMD.Reference.Values.(Female,.NHANES.III)...Sheet1.(1)`
 
 # Install and load data.table package
-install.packages("data.table")
 library(data.table)
 
 # Convert to data.table
@@ -92,9 +91,7 @@ exp_df$Z.SCORE <- exp_df$t_score - exp_df$REF.T.SCORE
 exp_df <- exp_df[, c("SEQN", "AGE.x", "t_score", "REF.T.SCORE", "Z.SCORE",  "GENDR", "RETH", "AFB", "MENS", "PAR", "BMD", "NMENS", "BINS", "PARBIN")]
 exp_df <- exp_df %>% rename(AGE = AGE.x)
 exp_df <- exp_df %>% rename(T.SCORE = t_score)
-```
 
-```{r}
 # Make new column for bone strength relative to T-score values
 # Conditions based on WHO 1994 definitions
 exp_df <- exp_df %>%
@@ -103,7 +100,13 @@ exp_df <- exp_df %>%
     T.SCORE <= -1 & T.SCORE > -2.5 ~ "Osteopenia",
     T.SCORE <= -2.5 ~ "Osteoporosis"
   ))
+
+# Reorder/organize columns 
+exp_df <- exp_df[, c("SEQN", "AGE", "T.SCORE", "REF.T.SCORE", "Z.SCORE", "CONDITION", "GENDR", "RETH", "AFB", "MENS", "PAR", "BMD", "NMENS", "BINS", "PARBIN")]
 ```
+
+
+
 
 
 
