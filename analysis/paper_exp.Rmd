@@ -16,22 +16,95 @@ Tasks for paper expansion:
 -   convert BMD to T and Z scores
 
 -   rerun original analyses with T and Z score equivalents (BMD v AFB and BMD v Parity)
+-   GAMs
 
     -   run new analyses with T and Z scores, \*\*\* maureen advise
 
 -   build literature
 
+```{r}
+library(dplyr)
+library(workflowr)
+load("df2.RData") # Loads df into the environment
+```
 
 
 ```{r}
 # T SCORE CALCULATION
+# Sample reference values for T-score calculation based on NHANES III
 
-# sample reference values for T-score calculation based on NHANES III non-Hispanic White women aged 20–29
+# Establish mean and sd
 mean_t <- 0.858
 sd_t <- 0.120
 
-# calculate T-scores
+# Calculate T-scores
 df2$t_score <- (df2$BMD - mean_t) / sd_t
 
-
 ```
+
+```{r}
+# Import reference T-score data frame 
+`Femoral.Neck.BMD.Reference.Values.(Female,.NHANES.III)...Sheet1.(1)` <- read.csv("~/Downloads/Femoral Neck BMD Reference Values (Female, NHANES III) - Sheet1 (1).csv")
+
+# Rename df
+dfref <- `Femoral.Neck.BMD.Reference.Values.(Female,.NHANES.III)...Sheet1.(1)`
+
+# Install and load data.table package
+install.packages("data.table")
+library(data.table)
+
+# Convert to data.table
+dt1 <- as.data.table(dfref)
+dt2 <- as.data.table(df2)
+
+# Parse AGE ranges into numeric lower and upper bounds
+dt1[, c("age_min", "age_max") := tstrsplit(AGE, "-", type.convert = TRUE)]
+dt1[, age_min := as.integer(age_min)]
+dt1[, age_max := as.integer(age_max)]
+
+# Create interval columns for dt2 (treat each age as a tiny interval)
+dt2[, `:=`(age_min = AGE, age_max = AGE)]
+
+# Set keys for interval join
+setkey(dt1, age_min, age_max)
+setkey(dt2, age_min, age_max)
+
+# Perform efficient interval join
+result <- foverlaps(dt2, dt1, type = "within")
+
+# Clean and display the result
+result <- result[, .(SEQN, AGE = i.AGE, REF.T.SCORE)]
+print(result)
+
+# Merge into one data frame
+exp_df <- merge(result, df2, by = "SEQN", all = TRUE)
+
+# Remove duplicate/unnecessary columns
+exp_df <- subset(exp_df, select = -AGE.y)
+```
+
+
+```{r}
+# Create Z-score column and calculate Z-scores
+exp_df$Z.SCORE <- exp_df$t_score - exp_df$REF.T.SCORE
+
+# Reorder/organize columns 
+exp_df <- exp_df[, c("SEQN", "AGE.x", "t_score", "REF.T.SCORE", "Z.SCORE",  "GENDR", "RETH", "AFB", "MENS", "PAR", "BMD", "NMENS", "BINS", "PARBIN")]
+exp_df <- exp_df %>% rename(AGE = AGE.x)
+exp_df <- exp_df %>% rename(T.SCORE = t_score)
+```
+
+```{r}
+# Make new column for bone strength relative to T-score values
+# Conditions based on WHO 1994 definitions
+exp_df <- exp_df %>%
+  mutate(CONDITION = case_when(
+    T.SCORE > -1 ~ "Normal",
+    T.SCORE <= -1 & T.SCORE > -2.5 ~ "Osteopenia",
+    T.SCORE <= -2.5 ~ "Osteoporosis"
+  ))
+```
+
+
+
+
