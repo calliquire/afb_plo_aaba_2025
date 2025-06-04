@@ -382,7 +382,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-05-29
+<strong>Last updated:</strong> 2025-06-04
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree9e99291ead581c15acc325c2617bef5d86465fd1targetblank9e99291a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treee05dd11f22f417c1fd8fad790afadc803778c978targetblanke05dd11a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/9e99291ead581c15acc325c2617bef5d86465fd1" target="_blank">9e99291</a>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/e05dd11f22f417c1fd8fad790afadc803778c978" target="_blank">e05dd11</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree9e99291ead581c15acc325c2617bef5d86465fd1targetblank9e99291a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treee05dd11f22f417c1fd8fad790afadc803778c978targetblanke05dd11a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/9e99291ead581c15acc325c2617bef5d86465fd1" target="_blank">9e99291</a>.
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/e05dd11f22f417c1fd8fad790afadc803778c978" target="_blank">e05dd11</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -550,6 +550,15 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  data/data_exp.csv
+    Untracked:  df2.RData
+    Untracked:  df2.rds
+    Untracked:  sources/
+
+Unstaged changes:
+    Modified:   analysis/analysis.Rmd
 
 </code></pre>
 <p>
@@ -594,6 +603,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/e05dd11f22f417c1fd8fad790afadc803778c978/analysis/paper_exp.Rmd" target="_blank">e05dd11</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-06-04
+</td>
+<td>
+wflow_publish("analysis/paper_exp.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/1f0225d02dc41b80be77df5be98b6d534fbe18ae/analysis/paper_exp.Rmd" target="_blank">1f0225d</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-05-29
+</td>
+<td>
+Update paper_exp.Rmd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/f391dc2c49b329e3044fed5a692aa1e06d13f0b4/docs/paper_exp.html" target="_blank">f391dc2</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-05-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -694,13 +754,105 @@ length paper will populate below:</p>
 <ul>
 <li><p>convert BMD to T and Z scores</p></li>
 <li><p>rerun original analyses with T and Z score equivalents (BMD v AFB
-and BMD v Parity)</p>
+and BMD v Parity)</p></li>
+<li><p>GAMs</p>
 <ul>
 <li>run new analyses with T and Z scores, *** maureen advise</li>
 </ul></li>
 <li><p>build literature</p></li>
-<li></li>
 </ul>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(workflowr)
+load(&quot;df2.RData&quot;) # Loads df into the environment</code></pre>
+<pre class="r"><code># T SCORE CALCULATION
+# Sample reference values for T-score calculation based on NHANES III
+
+# Establish mean and sd
+mean_t &lt;- 0.858
+sd_t &lt;- 0.120
+
+# Calculate T-scores
+df2$t_score &lt;- (df2$BMD - mean_t) / sd_t</code></pre>
+<pre class="r"><code># Import reference T-score data frame 
+`Femoral.Neck.BMD.Reference.Values.(Female,.NHANES.III)...Sheet1.(1)` &lt;- read.csv(&quot;~/Downloads/Femoral Neck BMD Reference Values (Female, NHANES III) - Sheet1 (1).csv&quot;)
+
+# Rename df
+dfref &lt;- `Femoral.Neck.BMD.Reference.Values.(Female,.NHANES.III)...Sheet1.(1)`
+
+# Install and load data.table package
+install.packages(&quot;data.table&quot;)</code></pre>
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpwB2jJe/downloaded_packages</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>
+Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:dplyr&#39;:
+
+    between, first, last</code></pre>
+<pre class="r"><code># Convert to data.table
+dt1 &lt;- as.data.table(dfref)
+dt2 &lt;- as.data.table(df2)
+
+# Parse AGE ranges into numeric lower and upper bounds
+dt1[, c(&quot;age_min&quot;, &quot;age_max&quot;) := tstrsplit(AGE, &quot;-&quot;, type.convert = TRUE)]
+dt1[, age_min := as.integer(age_min)]
+dt1[, age_max := as.integer(age_max)]
+
+# Create interval columns for dt2 (treat each age as a tiny interval)
+dt2[, `:=`(age_min = AGE, age_max = AGE)]
+
+# Set keys for interval join
+setkey(dt1, age_min, age_max)
+setkey(dt2, age_min, age_max)
+
+# Perform efficient interval join
+result &lt;- foverlaps(dt2, dt1, type = &quot;within&quot;)
+
+# Clean and display the result
+result &lt;- result[, .(SEQN, AGE = i.AGE, REF.T.SCORE)]
+print(result)</code></pre>
+<pre><code>       SEQN   AGE REF.T.SCORE
+      &lt;num&gt; &lt;num&gt;       &lt;num&gt;
+   1: 44050    20   0.0000000
+   2: 44050    20   0.6917293
+   3: 44050    20   0.1441441
+   4: 44608    20   0.0000000
+   5: 44608    20   0.6917293
+  ---                        
+5888: 79476    66  -0.6875000
+5889: 79476    66  -1.3125000
+5890: 52725    68  -1.4873950
+5891: 52725    68  -0.6875000
+5892: 52725    68  -1.3125000</code></pre>
+<pre class="r"><code># Merge into one data frame
+exp_df &lt;- merge(result, df2, by = &quot;SEQN&quot;, all = TRUE)
+
+# Remove duplicate/unnecessary columns
+exp_df &lt;- subset(exp_df, select = -AGE.y)</code></pre>
+<pre class="r"><code># Create Z-score column and calculate Z-scores
+exp_df$Z.SCORE &lt;- exp_df$t_score - exp_df$REF.T.SCORE
+
+# Reorder/organize columns 
+exp_df &lt;- exp_df[, c(&quot;SEQN&quot;, &quot;AGE.x&quot;, &quot;t_score&quot;, &quot;REF.T.SCORE&quot;, &quot;Z.SCORE&quot;,  &quot;GENDR&quot;, &quot;RETH&quot;, &quot;AFB&quot;, &quot;MENS&quot;, &quot;PAR&quot;, &quot;BMD&quot;, &quot;NMENS&quot;, &quot;BINS&quot;, &quot;PARBIN&quot;)]
+exp_df &lt;- exp_df %&gt;% rename(AGE = AGE.x)
+exp_df &lt;- exp_df %&gt;% rename(T.SCORE = t_score)</code></pre>
+<pre class="r"><code># Make new column for bone strength relative to T-score values
+# Conditions based on WHO 1994 definitions
+exp_df &lt;- exp_df %&gt;%
+  mutate(CONDITION = case_when(
+    T.SCORE &gt; -1 ~ &quot;Normal&quot;,
+    T.SCORE &lt;= -1 &amp; T.SCORE &gt; -2.5 ~ &quot;Osteopenia&quot;,
+    T.SCORE &lt;= -2.5 ~ &quot;Osteoporosis&quot;
+  ))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -712,7 +864,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.4.2 (2024-10-31)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sonoma 14.7.4
+Running under: macOS Sequoia 15.5
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
@@ -728,20 +880,20 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] workflowr_1.7.1
+[1] data.table_1.17.4 dplyr_1.1.4       workflowr_1.7.1  
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       httr_1.4.7        cli_3.6.3         knitr_1.49       
- [5] rlang_1.1.5       xfun_0.50         stringi_1.8.4     processx_3.8.5   
- [9] promises_1.3.2    jsonlite_1.8.9    glue_1.8.0        rprojroot_2.0.4  
-[13] git2r_0.35.0      htmltools_0.5.8.1 httpuv_1.6.15     ps_1.8.1         
-[17] sass_0.4.9        rmarkdown_2.29    jquerylib_0.1.4   tibble_3.2.1     
-[21] evaluate_1.0.3    fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4  
-[25] whisker_0.4.1     stringr_1.5.1     compiler_4.4.2    fs_1.6.5         
-[29] pkgconfig_2.0.3   Rcpp_1.0.14       rstudioapi_0.17.1 later_1.4.1      
-[33] digest_0.6.37     R6_2.5.1          pillar_1.10.1     callr_3.7.6      
-[37] magrittr_2.0.3    bslib_0.8.0       tools_4.4.2       cachem_1.1.0     
-[41] getPass_0.2-4    </code></pre>
+ [1] jsonlite_1.8.9    compiler_4.4.2    promises_1.3.2    tidyselect_1.2.1 
+ [5] Rcpp_1.0.14       stringr_1.5.1     git2r_0.35.0      callr_3.7.6      
+ [9] later_1.4.1       jquerylib_0.1.4   yaml_2.3.10       fastmap_1.2.0    
+[13] R6_2.5.1          generics_0.1.3    knitr_1.49        tibble_3.2.1     
+[17] rprojroot_2.0.4   bslib_0.8.0       pillar_1.10.1     rlang_1.1.5      
+[21] cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15     xfun_0.50        
+[25] getPass_0.2-4     fs_1.6.5          sass_0.4.9        cli_3.6.3        
+[29] withr_3.0.2       magrittr_2.0.3    ps_1.8.1          digest_0.6.37    
+[33] processx_3.8.5    rstudioapi_0.17.1 lifecycle_1.0.4   vctrs_0.6.5      
+[37] evaluate_1.0.3    glue_1.8.0        whisker_0.4.1     rmarkdown_2.29   
+[41] httr_1.4.7        tools_4.4.2       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
 </div>
 </div>
 </div>
