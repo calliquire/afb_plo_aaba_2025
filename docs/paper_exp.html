@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treee05dd11f22f417c1fd8fad790afadc803778c978targetblanke05dd11a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree17b0f1687bb104d3f8d4b42a81b3d7c0e6c411f7targetblank17b0f16a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/e05dd11f22f417c1fd8fad790afadc803778c978" target="_blank">e05dd11</a>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/17b0f1687bb104d3f8d4b42a81b3d7c0e6c411f7" target="_blank">17b0f16</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025treee05dd11f22f417c1fd8fad790afadc803778c978targetblanke05dd11a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcalliquireafbploaaba2025tree17b0f1687bb104d3f8d4b42a81b3d7c0e6c411f7targetblank17b0f16a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/e05dd11f22f417c1fd8fad790afadc803778c978" target="_blank">e05dd11</a>.
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/tree/17b0f1687bb104d3f8d4b42a81b3d7c0e6c411f7" target="_blank">17b0f16</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -550,15 +550,7 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  data/data_exp.csv
-    Untracked:  df2.RData
-    Untracked:  df2.rds
-    Untracked:  sources/
-
-Unstaged changes:
-    Modified:   analysis/analysis.Rmd
+    Ignored:    sources/per/u/
 
 </code></pre>
 <p>
@@ -603,6 +595,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/calliquire/afb_plo_aaba_2025/blob/17b0f1687bb104d3f8d4b42a81b3d7c0e6c411f7/analysis/paper_exp.Rmd" target="_blank">17b0f16</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-06-04
+</td>
+<td>
+wflow_publish("analysis/paper_exp.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/calliquire/afb_plo_aaba_2025/f7c94a66ce4a9926b0d75ab3bde4744370ef7b85/docs/paper_exp.html" target="_blank">f7c94a6</a>
+</td>
+<td>
+Calli Quire
+</td>
+<td>
+2025-06-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -788,11 +814,7 @@ df2$t_score &lt;- (df2$BMD - mean_t) / sd_t</code></pre>
 dfref &lt;- `Femoral.Neck.BMD.Reference.Values.(Female,.NHANES.III)...Sheet1.(1)`
 
 # Install and load data.table package
-install.packages(&quot;data.table&quot;)</code></pre>
-<pre><code>
-The downloaded binary packages are in
-    /var/folders/ps/8glpgwws46q79hzcgj61tlsr0000gn/T//RtmpwB2jJe/downloaded_packages</code></pre>
-<pre class="r"><code>library(data.table)</code></pre>
+library(data.table)</code></pre>
 <pre><code>
 Attaching package: &#39;data.table&#39;</code></pre>
 <pre><code>The following objects are masked from &#39;package:dplyr&#39;:
@@ -844,15 +866,19 @@ exp_df$Z.SCORE &lt;- exp_df$t_score - exp_df$REF.T.SCORE
 # Reorder/organize columns 
 exp_df &lt;- exp_df[, c(&quot;SEQN&quot;, &quot;AGE.x&quot;, &quot;t_score&quot;, &quot;REF.T.SCORE&quot;, &quot;Z.SCORE&quot;,  &quot;GENDR&quot;, &quot;RETH&quot;, &quot;AFB&quot;, &quot;MENS&quot;, &quot;PAR&quot;, &quot;BMD&quot;, &quot;NMENS&quot;, &quot;BINS&quot;, &quot;PARBIN&quot;)]
 exp_df &lt;- exp_df %&gt;% rename(AGE = AGE.x)
-exp_df &lt;- exp_df %&gt;% rename(T.SCORE = t_score)</code></pre>
-<pre class="r"><code># Make new column for bone strength relative to T-score values
+exp_df &lt;- exp_df %&gt;% rename(T.SCORE = t_score)
+
+# Make new column for bone strength relative to T-score values
 # Conditions based on WHO 1994 definitions
 exp_df &lt;- exp_df %&gt;%
   mutate(CONDITION = case_when(
     T.SCORE &gt; -1 ~ &quot;Normal&quot;,
     T.SCORE &lt;= -1 &amp; T.SCORE &gt; -2.5 ~ &quot;Osteopenia&quot;,
     T.SCORE &lt;= -2.5 ~ &quot;Osteoporosis&quot;
-  ))</code></pre>
+  ))
+
+# Reorder/organize columns 
+exp_df &lt;- exp_df[, c(&quot;SEQN&quot;, &quot;AGE&quot;, &quot;T.SCORE&quot;, &quot;REF.T.SCORE&quot;, &quot;Z.SCORE&quot;, &quot;CONDITION&quot;, &quot;GENDR&quot;, &quot;RETH&quot;, &quot;AFB&quot;, &quot;MENS&quot;, &quot;PAR&quot;, &quot;BMD&quot;, &quot;NMENS&quot;, &quot;BINS&quot;, &quot;PARBIN&quot;)]</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
