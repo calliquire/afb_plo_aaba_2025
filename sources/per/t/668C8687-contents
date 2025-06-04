@@ -520,8 +520,3 @@ plot8 <-
   annotate("rect", xmin = -Inf, xmax = Inf, ymin = 0.77, ymax = 0.89, fill = 'darkgrey', alpha = 0.25)
 print(plot8)
 ```
-
-```{r}
-save(df2, file = "df2.RData")
-```
-

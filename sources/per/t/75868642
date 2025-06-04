@@ -1,0 +1,33 @@
+{
+    "id": "75868642",
+    "path": "~/Desktop/afb_plo_aaba_2025/analysis/paper_exp.Rmd",
+    "project_path": null,
+    "type": "r_markdown",
+    "hash": "3108552081",
+    "contents": "",
+    "dirty": false,
+    "created": 1748618427216.0,
+    "source_on_save": false,
+    "relative_order": 7,
+    "properties": {
+        "chunk_output_type": "console",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "73,0",
+        "scrollLine": "61",
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "docOutlineVisible": "0",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "487:155",
+        "docOutlineSize": "18"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1749003235,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1749003235559,
+    "read_only": false,
+    "read_only_alternatives": []
+}
